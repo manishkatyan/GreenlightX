@@ -17,7 +17,7 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 Rails.application.routes.draw do
-  get '/subscription', to: 'subscription#stripe'
+  get '/subscriptions', to: 'subscriptions#stripe'
   get '/analytics', to: 'analytics#performance'
   get '/health_check', to: 'health_check#all'
 
