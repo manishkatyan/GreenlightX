@@ -61,6 +61,11 @@ module UsersHelper
     Role.editable_roles(@user_domain).where("priority >= ?", current_user.role.priority).by_priority
   end
 
+  # Returns a list of subscription status that the user can have
+  def subscription_status_options
+    ["Active", "Inactive", "Suspended", "Cancelled"]
+  end  
+
   # Parses markdown for rendering.
   def markdown(text)
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,

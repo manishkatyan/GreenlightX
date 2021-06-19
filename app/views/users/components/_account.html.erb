@@ -33,6 +33,21 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-sm-6 mb-4">
+       <%= f.label :roles, t("settings.account.subscription"), class: "form-label mt-5" %>
+       <%= f.text_field :name, class: "form-control #{form_is_invalid?(@user, :name)}", placeholder: t("settings.account.fullname"), readonly: readonly %>
+      </div>
+      <div class="col-sm-6 mb-4">
+       <%= f.label :roles, t("settings.account.subscription"), class: "form-label mt-5" %>
+       <select id="subscription-status-dropdown" class="selectpicker show-tick w-50">
+        <% subscription_status_options.each do |status| %>
+          <option value="<%=status%>"><%= status %></option>
+        <% end %>
+      </select>
+      </div>
+    </div>
     
     <%= f.label :provider, t("settings.account.provider"), class: "form-label" %>
     <%= f.text_field :provider, class: "form-control", readonly: "" %>
@@ -74,6 +89,7 @@
         <%= f.text_field :image, class: "form-control #{form_is_invalid?(@user, :image)}", placeholder: t("settings.account.image_url") %>
       </div>
     </div>
+
   </div>
   <div class="card-footer">
     <%= f.submit t("update"), class: "btn btn-primary float-right ml-4" %>
