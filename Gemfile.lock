@@ -409,6 +409,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    stripe (5.34.0)
     swd (1.2.0)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
@@ -511,6 +512,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0)
   sprockets (~> 3.7.2)
   sqlite3
+  stripe
   tabler-rubygem!
   turbolinks (~> 5.2.1)
   tzinfo-data (~> 1.2021.1)
