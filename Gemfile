@@ -42,9 +42,7 @@ gem 'remote_syslog_logger', '~> 1.0.4'
 gem 'rubocop', '~> 1.10.0'
 gem 'sassc-rails', '~> 2.1.2'
 gem 'sprockets', '~> 3.7.2'
-#gem 'sqlite3', '~> 1.3.6'
 gem 'sqlite3'
-#gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
 
 gem 'tabler-rubygem', git: 'https://github.com/blindsidenetworks/tabler-rubygem.git', tag: '0.1.4.1'
 gem 'turbolinks', '~> 5.2.1'
@@ -54,7 +52,7 @@ gem 'uglifier', '~> 4.2.0'
 group :production do
   gem 'hiredis', '~> 0.6.3'
   gem "lograge", '~> 0.11.2'
-  #gem 'pg', '~> 0.18'
+  gem 'pg', '~> 0.18'
   gem 'redis', '~> 4.2.5'
   gem 'sequel', '~> 5.41.0'
 end
