@@ -63,7 +63,7 @@ module UsersHelper
 
   # Returns a list of subscription status that the user can have
   def subscription_status_options
-    ["Active", "Inactive", "Suspended", "Cancelled"]
+    ["", "Active", "Inactive", "Suspended", "Cancelled"]
   end  
 
   # Parses markdown for rendering.

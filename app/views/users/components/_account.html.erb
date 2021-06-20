@@ -34,24 +34,46 @@
       </div>
     </div>
 
+    <% if current_user.role.get_permission("can_manage_users") %>
     <div class="row">
       <div class="col-sm-6 mb-4">
-       <%= f.label :roles, t("settings.account.subscription"), class: "form-label mt-5" %>
-       <%= f.text_field :name, class: "form-control #{form_is_invalid?(@user, :name)}", placeholder: t("settings.account.fullname"), readonly: readonly %>
+       <%= f.label :subscription_id, t("settings.account.subscription"), class: "form-label mt-5" %>
+       <%= f.text_field :subscription_id, class: "form-control #{form_is_invalid?(@user, :subscription_id)}", placeholder: t("settings.account.subscription") %>
       </div>
       <div class="col-sm-6 mb-4">
-       <%= f.label :roles, t("settings.account.subscription"), class: "form-label mt-5" %>
-       <select id="subscription-status-dropdown" class="selectpicker show-tick w-50">
+       <%= f.label :subscription_status, t("settings.account.subscription_status"), class: "form-label mt-5" %>      
+       <select id="user_subscription_status" name="user[subscription_status]" class="selectpicker show-tick w-50">
         <% subscription_status_options.each do |status| %>
-          <option value="<%=status%>"><%= status %></option>
+          <option value="<%=status%>" <%= 'selected' if status == @user.subscription_status %>><%= status %></option>
         <% end %>
       </select>
       </div>
     </div>
-    
-    <%= f.label :provider, t("settings.account.provider"), class: "form-label" %>
-    <%= f.text_field :provider, class: "form-control", readonly: "" %>
-    <br>
+    <% end %>
+
+    <div class="row">
+      <div class="col-sm-6 mb-4">
+        <%= f.label :provider, t("settings.account.provider"), class: "form-label" %>
+        <%= f.text_field :provider, class: "form-control", readonly: "" %>
+      </div>
+      <div class="col-sm-6 mb-4">
+        <%= f.label :roles, t("settings.account.roles"), class: "form-label" %>
+          <% if current_user.role.get_permission("can_manage_users") %>
+            <select id="role-dropdown" class="selectpicker show-tick" >
+              <% role_options.each do |role| %>
+                <option value="<%=role.id%>"><%= translated_role_name(role) %></option>
+              <% end %>
+            </select>
+
+            <%= f.hidden_field :role_id, id: "user_role_id", value: @user.role.id %>
+          <% else %>
+            <span style="<%= "background-color: #{role_colour(@user.role)};border-color: #{role_colour(@user.role)};" %>" class="tag custom-role-tag">
+              <%= translated_role_name(@user.role) %>
+            </span>
+        <% end %>
+      </div>
+    </div>
+  
     <%= f.label :language, t("settings.account.language"), class: "form-label" %>
     <select id="language-dropdown" class="selectpicker show-tick w-50">
       <% language_options.each do |lang| %>
@@ -61,20 +83,7 @@
     <%= f.hidden_field :language, id: "user_language", value: @user.language %>
 
 
-    <%= f.label :roles, t("settings.account.roles"), class: "form-label mt-5" %>
-    <% if current_user.role.get_permission("can_manage_users") %>
-      <select id="role-dropdown" class="selectpicker show-tick" >
-        <% role_options.each do |role| %>
-          <option value="<%=role.id%>"><%= translated_role_name(role) %></option>
-        <% end %>
-      </select>
-
-      <%= f.hidden_field :role_id, id: "user_role_id", value: @user.role.id %>
-    <% else %>
-      <span style="<%= "background-color: #{role_colour(@user.role)};border-color: #{role_colour(@user.role)};" %>" class="tag custom-role-tag">
-        <%= translated_role_name(@user.role) %>
-      </span>
-    <% end %>
+    
 
     <%= f.label :image, t("settings.account.image"), class: "form-label mt-5" %>
     <div class="row">

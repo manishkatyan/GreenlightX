@@ -635,8 +635,8 @@ en:
       subtitle: Update your Account Info
       title: Account Info
       reset_password: Reset user password
-      subscription: Subscription Plan Id
-      subscription_status: Subscription Plan Status
+      subscription: Subscription Id
+      subscription_status: Subscription Status
     delete:
       button: Yes, I would like to delete my account.
       disclaimer: If you choose to delete your account, it will <b>NOT</b> be recoverable. All information regarding your account, including settings, rooms, and recording will be removed.
