@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_19_134902) do
+ActiveRecord::Schema.define(version: 2021_06_21_225652) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -120,6 +120,13 @@ ActiveRecord::Schema.define(version: 2021_06_19_134902) do
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_shared_accesses_on_room_id"
     t.index ["user_id"], name: "index_shared_accesses_on_user_id"
+  end
+
+  create_table "streamings", force: :cascade do |t|
+    t.string "url"
+    t.string "meeting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -17,6 +17,9 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 Rails.application.routes.draw do
+
+  get '/streaming', to: 'streaming#create'
+
   get '/subscriptions/show', to: 'subscriptions#show'
   get '/subscriptions/create', to: 'subscriptions#create'
   get '/subscriptions/success', to: 'subscriptions#success'
