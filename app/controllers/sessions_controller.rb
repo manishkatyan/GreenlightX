@@ -59,6 +59,20 @@ class SessionsController < ApplicationController
     check_if_twitter_account(true)
 
     @user = User.new
+
+    if params[:email] 
+      @user.email = params[:email]
+    end
+
+    if params[:name] 
+      @user.name = params[:name]
+    end
+
+    if params[:subscription_id]
+      @user.subscription_id = params[:subscription_id]
+      @user.subscription_status = "Active"
+    end
+
   end
 
   # POST /users/login

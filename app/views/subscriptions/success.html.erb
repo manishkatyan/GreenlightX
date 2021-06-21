@@ -1,0 +1,24 @@
+<%
+if params[:session_id]
+    flash.now[:success] = "Thanks for your Subscribing"
+else
+    flash[:error] = "Something went wrong... couldn't subscribe"
+    redirect_to :root
+end
+
+Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+session = Stripe::Checkout::Session.retrieve(params[:session_id])
+customer = Stripe::Customer.retrieve(session.customer)
+%>
+
+<div class="container mt-8 mb-6 text-center">
+<h2 class="mb-6">You've Subscribed Successfully!</h2>
+
+<p><%= customer.name %>, thank you for subscribing!</p>
+<p>Please click on continue to sign up and create your account.</p>
+
+<br>
+<br>
+<%= link_to "Continue to Create an Account", signup_path(:email => customer.email, :name => customer.name, :subscription_id => customer.id), class: "btn btn-outline-primary mx-2 sign-up-button" %>
+
+</div>

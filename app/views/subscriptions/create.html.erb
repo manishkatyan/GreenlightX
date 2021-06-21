@@ -1,0 +1,28 @@
+<%
+Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+
+session = Stripe::Checkout::Session.create(
+    success_url: 'http://localhost:3030/subscriptions/success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'http://localhost:3030/subscriptions/cancel',
+    payment_method_types: ['card'],
+    mode: 'subscription',
+    line_items: [{
+    # For metered billing, do not pass quantity
+    quantity: 1,
+    price: ENV['STRIPE_PLAN_2'],
+    }]
+)
+%>
+
+<script>
+jQuery(document).ready(function ($) {
+    var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
+
+    stripe.redirectToCheckout({
+    sessionId: "<%= session.id %>"
+    }).then(function (result) {
+    console.log("Response from Stripe ", result);
+    });
+});
+
+</script>
