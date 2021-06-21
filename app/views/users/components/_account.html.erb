@@ -41,12 +41,12 @@
        <%= f.text_field :subscription_id, class: "form-control #{form_is_invalid?(@user, :subscription_id)}", placeholder: t("settings.account.subscription") %>
       </div>
       <div class="col-sm-6 mb-4">
-       <%= f.label :subscription_status, t("settings.account.subscription_status"), class: "form-label mt-5" %>      
-       <select id="user_subscription_status" name="user[subscription_status]" class="selectpicker show-tick w-50">
-        <% subscription_status_options.each do |status| %>
-          <option value="<%=status%>" <%= 'selected' if status == @user.subscription_status %>><%= status %></option>
-        <% end %>
-      </select>
+        <%= f.label :subscription_status, t("settings.account.subscription_status"), class: "form-label mt-5" %>      
+          <select id="user_subscription_status" name="user[subscription_status]" class="selectpicker show-tick w-50">
+            <% subscription_status_options.each do |status| %>
+              <option value="<%=status%>" <%= 'selected' if status == @user.subscription_status %>><%= status %></option>
+            <% end %>
+          </select>
       </div>
     </div>
     <% end %>
