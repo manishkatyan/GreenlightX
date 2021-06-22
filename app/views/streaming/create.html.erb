@@ -15,15 +15,16 @@
 
                 <div class="form-group">
                     <%= f.label :meeting_id, "Select the meeting to stream", class: "form-label mt-5" %>      
-                    <select id="meeting_id" name="streaming[meeting_id]" class="selectpicker show-tick w-50">
+                    <select id="streaming_meeting_id" name="streaming[meeting_id]" class="selectpicker show-tick w-50">
                         <% streaming_running_meetings.each do |meeting_id, meeting_title| %>
-                        <option value="<%=meeting_id%>"><%= meeting_title %></option>
+                        <option value="<%= meeting_id %>"><%= meeting_title %></option>
                         <% end %>
                     </select>
                 </div>
 
                 <div class="form-group">
-                <%= f.submit "Start Streaming", class: "btn btn-primary btn-block signin-button" %>
+                <%= f.submit "Start", class: "btn btn-primary mx-2 sign-in-button" %>
+                <%= f.submit "Stop", class: "btn btn-outline-primary mx-2 sign-in-button" %>
                 </div>
 
             <% end %>
