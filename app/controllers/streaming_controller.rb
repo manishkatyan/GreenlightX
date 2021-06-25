@@ -46,14 +46,14 @@ class StreamingController < ApplicationController
       hide_user_list = Rails.configuration.hide_user_list
       rtmp_url =  @streaming.url
       viewer_url = @streaming.viewer_url
-      start_streaming = "node /home/arunkumar/Documents/GitHub/GreenlightX/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{modorator_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
+      start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{modorator_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
       logger.error "#{start_streaming}"
       $pid = Process.spawn (start_streaming)
       logger.info "Streaming started at pid: #{$pid}"
       flash.now[:success] = ("Streaming started succussfully")
 
     elsif (params[:commit] == "Stop") && ($pid > 0 )
-      `killall --user arunkumar  --ignore-case  --signal TERM  node`
+      `killall --user root  --ignore-case  --signal TERM  node`
       logger.info "Streaming stopped; killed streaming processed, pid: #{$pid}"
       $pid = 0
       flash.now[:success] = ("Streaming stopped succussfully")
