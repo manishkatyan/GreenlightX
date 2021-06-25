@@ -67,7 +67,7 @@ async function main() {
     let browser, page;
 
     try{
-        // xvfb.startSync()
+        xvfb.startSync()
         var JOIN_PARAM = {
             'userdata-bbb_force_listen_only' : 'true',
             'userdata-bbb_listen_only_mode': 'true',
