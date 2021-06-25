@@ -13,6 +13,7 @@ WORKDIR $RAILS_ROOT
 ARG BUILD_PACKAGES="build-base curl-dev git"
 ARG DEV_PACKAGES="postgresql-dev sqlite-libs sqlite-dev yaml-dev zlib-dev nodejs yarn"
 ARG RUBY_PACKAGES="tzdata"
+ARG STREAMING_PACKAGE=""
 
 # Install app dependencies.
 RUN apk update \
