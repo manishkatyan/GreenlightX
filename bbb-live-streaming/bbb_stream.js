@@ -162,8 +162,8 @@ async function main() {
         
         console.log("meeting started")
         //  ffmpeg screen record start
-         const ls = child_process.spawn('sh',
-                    ['start.sh',' ',`${RTMP_URL}`,' ', `${disp_num}`],
+         const ls = child_process.spawn('sh ',
+                    ['/usr/src/app/bbb-live-streaming/start.sh',' ',`${RTMP_URL}`,' ', `${disp_num}`],
                     { shell: true });
         
                     ls.stdout.on('data', (data) => {
@@ -183,7 +183,7 @@ async function main() {
 
 
         const rec = child_process.spawn('sh',
-                    ['stop.sh'],
+                    ['/usr/src/app/bbb-live-streaming/stop.sh'],
                     { shell: true });
         
                     rec.stdout.on('data', (data) => {
