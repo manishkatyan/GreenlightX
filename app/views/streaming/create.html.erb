@@ -1,3 +1,11 @@
+<% disabled = !(streaming_running_meetings.length > 0) %>
+<% is_meeting_running = (streaming_running_meetings.length > 0)  %>
+<%
+=begin%>
+ <% ie_streaming_running  %> 
+<%
+=end%>
+
 <div class="container">
   <div class="row pt-7">
     <div class="col col-lg-6 offset-lg-3">
@@ -12,9 +20,13 @@
                     <%= f.text_field :url, class: "form-control #{form_is_invalid?(@streaming, :url)}", placeholder: "RTMP URL from YouTube, Facebook or others", autofocus: "", required: "" %>
                     <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:url).first %></div>
                 </div>
-
                 <div class="form-group">
-                    <%= f.label :meeting_id, "Select the meeting to stream", class: "form-label mt-5" %>      
+                    <%= f.label :viewer_url, "Enter VIEWER URL", class: "form-label" %>
+                    <%= f.text_field :viewer_url, class: "form-control #{form_is_invalid?(@streaming, :viewer_url)}", placeholder: "URL to view Live streaming", autofocus: "", required: "" %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:viewer_url).first %></div>
+                </div>
+                <div class="form-group">
+                    <%= f.label :meeting_id, "Select the meeting to stream", class: "form-label mt-5" %>
                     <select id="streaming_meeting_id" name="streaming[meeting_id]" class="selectpicker show-tick w-50">
                         <% streaming_running_meetings.each do |meeting_id, meeting_title| %>
                         <option value="<%= meeting_id %>"><%= meeting_title %></option>
@@ -23,10 +35,9 @@
                 </div>
 
                 <div class="form-group">
-                <%= f.submit "Start", class: "btn btn-primary mx-2 sign-in-button" %>
+                <%= f.submit "Start", class: "btn btn-primary mx-2 sign-in-button", :disabled => disabled %>
                 <%= f.submit "Stop", class: "btn btn-outline-primary mx-2 sign-in-button" %>
                 </div>
-
             <% end %>
         </div>
       </div>  

@@ -18,7 +18,8 @@
 
 Rails.application.routes.draw do
 
-  get '/streaming', to: 'streaming#create'
+  get '/streaming', to: 'streaming#show'
+  post '/streaming', to: 'streaming#create'
 
   get '/subscriptions/show', to: 'subscriptions#show'
   get '/subscriptions/create', to: 'subscriptions#create'

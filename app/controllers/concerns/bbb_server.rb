@@ -17,6 +17,7 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 require 'bigbluebutton_api'
+require 'json'
 
 module BbbServer
   extend ActiveSupport::Concern
@@ -56,6 +57,14 @@ module BbbServer
     join_opts[:join_via_html5] = true
     join_opts[:createTime] = room.last_session.to_datetime.strftime("%Q") if room.last_session
 
+    # handle the custom parameter
+    custom_parameters = JSON.parse(Rails.configuration.custom_parameters)
+    if custom_parameters.length > 0
+      custom_parameters.each do |param|
+        join_opts.store("#{param[0]}", param[1])
+      end
+    end
+
     bbb_server.join_meeting_url(room.bbb_id, name, password, join_opts)
   end
 
@@ -72,6 +81,14 @@ module BbbServer
       "meta_bbb-origin": "Greenlight",
       "meta_bbb-origin-server-name": options[:host]
     }
+
+    # handle the custom parameter
+    custom_parameters = JSON.parse(Rails.configuration.custom_parameters)
+    if custom_parameters.length > 0
+      custom_parameters.each do |param|
+        create_options.store("#{param[0]}", param[1])
+      end
+    end
 
     create_options[:muteOnStart] = options[:mute_on_start] if options[:mute_on_start]
     create_options[:guestPolicy] = "ASK_MODERATOR" if options[:require_moderator_approval]
