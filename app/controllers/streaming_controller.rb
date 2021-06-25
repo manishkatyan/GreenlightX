@@ -40,13 +40,13 @@ class StreamingController < ApplicationController
       bbb_url = Rails.configuration.bigbluebutton_endpoint
       bbb_secret = Rails.configuration.bigbluebutton_secret
       meetingID = @streaming.meeting_id
-      modorator_pw = Room.find_by(bbb_id: meetingID).moderator_pw
+      attendee_pw = Room.find_by(bbb_id: meetingID).attendee_pw
       hide_presentation =  Rails.configuration.hide_presentation
       hide_chat = Rails.configuration.hide_chat
       hide_user_list = Rails.configuration.hide_user_list
       rtmp_url =  @streaming.url
       viewer_url = @streaming.viewer_url
-      start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{modorator_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
+      start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
       logger.error "#{start_streaming}"
       $pid = Process.spawn (start_streaming)
       logger.info "Streaming started at pid: #{$pid}"

@@ -10,7 +10,7 @@ BBB_URL = bbb_url_obj.origin + "/bigbluebutton/"
 var BBB_SECRET = process.argv[3];
 var MEETING_ID = process.argv[4];
 console.log(BBB_URL,BBB_SECRET,MEETING_ID)
-var MODORATOR_PW = process.argv[5]
+var ATTENDIEE_PW = process.argv[5]
 var HIDE_PRESENTATION = process.argv[6]
 var HIDE_CHAT = process.argv[7]
 var HIDE_USER_LIST = process.argv[8]
@@ -69,10 +69,11 @@ async function main() {
     try{
         xvfb.startSync()
         var JOIN_PARAM = {
-            'userdata-bbb_force_listen_only' : 'true',
+            'userdata-bbb_force_listen_only' : 'false',
             'userdata-bbb_listen_only_mode': 'true',
-            'userdata-bbb_skip_check_audio': 'true'          
-         } 
+            'userdata-bbb_skip_check_audio': 'true',
+            'userdata-bbb_show_public_chat_on_login': 'true'        
+         }
 
         //  Hides presentation if HIDE_PRESENTATION is true
          if (HIDE_PRESENTATION == 'true'){
@@ -80,7 +81,7 @@ async function main() {
          }
 
         //  Create Join url 
-        let url = api.administration.join('Live Stream', MEETING_ID, "ap", JOIN_PARAM)
+        let url = api.administration.join('Live Stream', MEETING_ID, ATTENDIEE_PW, JOIN_PARAM)
         console.log(url)      
         browser = await puppeteer.launch(options)
         const pages = await browser.pages()
@@ -97,27 +98,36 @@ async function main() {
         try{
         await page.waitForSelector('[aria-label="Listen only"]');
         await page.click('[aria-label="Listen only"]', {waitUntil: 'domcontentloaded'});
-        await page.waitForXPath('/html/body/div[5]/div/div',{hidden:true})
+        await page.waitForTimeout(5000)
+    }
+    catch(err){
+        console.log(err)
+    }
+
+        // Hide User List
+        if (HIDE_USER_LIST == 'true'){
+            try{
+            // Hides user list if HIDE_USER_LIST is true
+                await page.waitForSelector('#app > main > section > div:nth-child(1)', {waitUntil: 'domcontentloaded'})
+                .then(()=> page.$eval('#app > main > section > div:nth-child(1)', element => element.style.display = "none"));
+        
+                // hides padding of user list
+                page.$eval('#app > main > section > div:nth-child(2)', element => element.style.display = "none");
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+        // Hides chat is HIDE_CHAT is true
+        if(HIDE_CHAT == 'true'){
+            try{
+            await page.waitForSelector('button[aria-label="Hide Public Chat"]');
+            await page.click('button[aria-label="Hide Public Chat"]', {waitUntil: 'domcontentloaded'});
         }
         catch(err){
             console.log(err)
         }
-
-        // Hide User List
-        if (HIDE_USER_LIST == 'true'){
-            // Hides user list if HIDE_USER_LIST is true
-            await page.waitForSelector('#app > main > section > div:nth-child(2)', {waitUntil: 'domcontentloaded'})
-            .then(()=> page.$eval('#app > main > section > div:nth-child(2)', element => element.style.display = "none"));
-       
-            // hides padding of user list
-            page.$eval('#app > main > section > div:nth-child(3)', element => element.style.display = "none");
-        }
-
-        // Hides chat is HIDE_CHAT is true
-        if(HIDE_CHAT == 'true'){
-            await page.waitForSelector('button[aria-label="Hide Public Chat"]');
-            await page.click('button[aria-label="Hide Public Chat"]', {waitUntil: 'domcontentloaded'});
-        }
+    }
 
         // Send VIEWER_URL in chat only if chat is enabled in .env
         if((HIDE_CHAT == 'false') && (VIEWER_URL.length>0)){
