@@ -15,7 +15,7 @@
 /public/system/**
 /public/assets/**
 /public/b/**
-
+.history
 # Ignore uploaded files
 /storage
 
