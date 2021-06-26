@@ -9,7 +9,6 @@ var bbb_url_obj = new URL(BBB_URL)
 BBB_URL = bbb_url_obj.origin + "/bigbluebutton/"
 var BBB_SECRET = process.argv[3];
 var MEETING_ID = process.argv[4];
-console.log(BBB_URL,BBB_SECRET,MEETING_ID)
 var ATTENDIEE_PW = process.argv[5]
 var HIDE_PRESENTATION = process.argv[6]
 var HIDE_CHAT = process.argv[7]
