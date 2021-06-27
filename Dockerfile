@@ -14,7 +14,7 @@ ARG BUILD_PACKAGES="build-essential curl git"
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 ARG DEV_PACKAGES="libpq-dev libsqlite3-dev libyaml-dev zlib1g-dev nodejs yarn"
 ARG RUBY_PACKAGES="tzdata"
-ARG STREAMING_PACKAGE="curl gnupg2 psmisc  ffmpeg  make g++ libgbm-dev ffmpeg gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
+ARG STREAMING_PACKAGE="curl gnupg2 psmisc ffmpeg  make g++ libgbm-dev ffmpeg gconf-service libasound2 libatk1.0-0 libc6 libcairo2 \
                                         libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 \
                                         libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 \
                                         libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
@@ -22,7 +22,7 @@ ARG STREAMING_PACKAGE="curl gnupg2 psmisc  ffmpeg  make g++ libgbm-dev ffmpeg gc
                                         libxtst6 ca-certificates fonts-liberation libappindicator1  libnss3 \
                                         lsb-release xdg-utils wget xvfb fonts-noto \
                                         dbus-x11 libasound2 fluxbox  libasound2-plugins alsa-utils  alsa-oss pulseaudio pulseaudio-utils \
-                                         xvfb pulseaudio-equalizer"
+                                         xvfb pulseaudio-equalizer "
 
 RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list

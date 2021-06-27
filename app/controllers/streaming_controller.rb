@@ -1,64 +1,101 @@
+
+require 'json'
 class StreamingController < ApplicationController
   # Initialize Global variable pid
-  $pid = 0
+  def streaming_status(uid)
+    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
+    return status_file
+  end
+
+  def update_status_file(json_data, uid)
+    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    if (File.file?(json_file))
+      File.write(json_file, JSON.current_streaming_data(json_data))
+      logger.error "Updated streaming status file for : #{json_data["meeting_name"]}"
+    else
+      File.new(json_file)
+      File.write(json_file, json_data)
+      meeting_id = json_data["meeting_name"]
+      logger.error "Streaming status file created for : #{meeting_id}"
+    end
+  end
 
   #method to render streaming page i.e "get /streaming"  
   def show
     @streaming = Streaming.new
+    uid = User.find_by(id: session[:user_id]).uid
+    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_data = {"pid" => 0, "running" => false}
+    streaming_running = streaming_status(uid)
+    streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
     render('streaming/create')
   end
 
   # It returns id the any room that belongs to current user is running?
   def streaming_running_meetings
-    all_room_list = {}
-    rooms = []
-    room_list = {}
+    user_running_rooms = {}
     current_user.ordered_rooms.each do |room|
-      rooms << room.bbb_id
+      user_running_rooms.store(room.bbb_id, room.name) if room_running?(room.bbb_id)
     end
-
-    all_running_meetings[:meetings].each do |meeting|
-      all_room_list.store(meeting[:meetingID], meeting[:meetingName])
-    end
-
-    rooms.each do |meetingID|
-      if (all_room_list.has_key?(meetingID))
-        all_room_list.slice(meetingID).each do |meeting_id, meetingName|
-          room_list.store(meeting_id, meetingName)
-        end
-      end
-    end
-    return room_list
+    return user_running_rooms
   end
   helper_method :streaming_running_meetings
   
-
   # streaming starts here i.e "post /streaming"
   def create
     @streaming = Streaming.new(streaming_params)
-    if (params[:commit] == "Start") && ($pid == 0) 
+    @room = Room.find_by(bbb_id: @streaming.meeting_id)
+    @user = User.find_by(id: session[:user_id])
+    streaming_status = streaming_status(@user.uid)
+    status_file_update_data = streaming_status ? streaming_status : {} 
+    pid = streaming_status ? streaming_status["pid"] : 0 
+    if (params[:commit] == "Start") && (pid == 0) 
       bbb_url = Rails.configuration.bigbluebutton_endpoint
       bbb_secret = Rails.configuration.bigbluebutton_secret
       meetingID = @streaming.meeting_id
-      attendee_pw = Room.find_by(bbb_id: meetingID).attendee_pw
+      attendee_pw = @room.attendee_pw
       hide_presentation =  Rails.configuration.hide_presentation
       hide_chat = Rails.configuration.hide_chat
       hide_user_list = Rails.configuration.hide_user_list
-      rtmp_url =  @streaming.url
+      rtmp_url =  @streaming.url 
       viewer_url = @streaming.viewer_url
-      start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
-      logger.error "#{start_streaming}"
-      $pid = Process.spawn (start_streaming)
-      logger.info "Streaming started at pid: #{$pid}"
+      # start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
+      start_streaming = `echo "hiiii"`
+      pid = Process.spawn (start_streaming)
+      running = true
+      status_file_update_data = {
+        "pid" => pid,
+        "meeting_name" => @room.name,
+        "rtmp_url" => rtmp_url,
+        "viewer_url" => viewer_url,
+        "meeting_id" => meetingID,
+        "running" => running
+      }
+
+      logger.error "=======#{status_file_update_data}"
+      update_status_file(status_file_update_data, @user.uid)
+      logger.info "Streaming started at pid: #{pid}"
       flash.now[:success] = ("Streaming started succussfully")
 
-    elsif (params[:commit] == "Stop") && ($pid > 0 )
-      `killall --user root  --ignore-case  --signal TERM  node`
-      logger.info "Streaming stopped; killed streaming processed, pid: #{$pid}"
-      $pid = 0
+    elsif (params[:commit] == "Stop")
+      running = false
+      pid = 0
+      status_file_update_data["running"] = running
+      status_file_update_data["pid"] = pid
+      update_status_file(status_file_update_data, @user.uid)
+
+      logger.info "Streaming stopped; killed streaming processed, pid: #{pid}"
       flash.now[:success] = ("Streaming stopped succussfully")
     end
   end
+  def streaming_data
+    @user = User.find_by(id: session[:user_id])
+    current_streaming_data = streaming_status(@user.uid)
+    logger.error "current_streaming_data = #{current_streaming_data}"
+    return current_streaming_data
+  end
+  helper_method :streaming_data
 
   # only pass allowed params from "post /streaming"
   def streaming_params
