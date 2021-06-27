@@ -3,13 +3,13 @@ require 'json'
 class StreamingController < ApplicationController
   # Initialize Global variable pid
   def streaming_status(uid)
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
     return status_file
   end
 
   def update_status_file(json_data, uid)
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     if (File.file?(json_file))
       File.write(json_file, JSON.current_streaming_data(json_data))
       logger.error "Updated streaming status file for : #{json_data["meeting_name"]}"
@@ -25,7 +25,7 @@ class StreamingController < ApplicationController
   def show
     @streaming = Streaming.new
     uid = User.find_by(id: session[:user_id]).uid
-    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/app/streaming_stats/#{uid}.json"
     json_data = {"pid" => 0, "running" => false}
     streaming_running = streaming_status(uid)
     streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
@@ -61,7 +61,7 @@ class StreamingController < ApplicationController
       rtmp_url =  @streaming.url 
       viewer_url = @streaming.viewer_url
       start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
-      pid = Process.spawn (start_streaming, [:out, :err]=>"/usr/src/streaming-log/#{@user.uid.}log")
+      pid = Process.spawn (start_streaming, [:out, :err]=>"/usr/src/app/streaming-log/#{@user.uid.}log")
       Process.detach(pid)
       running = true
       status_file_update_data = {
@@ -76,7 +76,7 @@ class StreamingController < ApplicationController
       logger.info "Streaming started at pid: #{pid}"
       flash.now[:success] = ("Streaming started succussfully")
 
-    elsif (params[:commit] == "Stop")
+    elsif (params[:commit] == "Stop") && (running)
       running = false
       pid = 0
       status_file_update_data["running"] = running
