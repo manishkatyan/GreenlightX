@@ -25,7 +25,7 @@ class StreamingController < ApplicationController
   def show
     @streaming = Streaming.new
     uid = User.find_by(id: session[:user_id]).uid
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     json_data = {"pid" => 0, "running" => false}
     streaming_running = streaming_status(uid)
     streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
@@ -60,9 +60,9 @@ class StreamingController < ApplicationController
       hide_user_list = Rails.configuration.hide_user_list
       rtmp_url =  @streaming.url 
       viewer_url = @streaming.viewer_url
-      # start_streaming = "cd /usr/src/app/bbb-live-streaming/ && node bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
-      start_streaming = `echo "hiiii"`
-      pid = Process.spawn (start_streaming)
+      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
+      pid = Process.spawn (start_streaming, [:out, :err]=>"/usr/src/streaming-log/#{@user.uid.}log")
+      Process.detach(pid)
       running = true
       status_file_update_data = {
         "pid" => pid,
@@ -72,8 +72,6 @@ class StreamingController < ApplicationController
         "meeting_id" => meetingID,
         "running" => running
       }
-
-      logger.error "=======#{status_file_update_data}"
       update_status_file(status_file_update_data, @user.uid)
       logger.info "Streaming started at pid: #{pid}"
       flash.now[:success] = ("Streaming started succussfully")
