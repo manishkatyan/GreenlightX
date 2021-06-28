@@ -59,3 +59,6 @@ bbb-live-streamingffmpeg_cmd.sh
 /bbb-live-streaming/__pycache__
 /bbb-live-streaming/tmp
 /bbb-live-streaming/bbb_api_test.js
+/bbb-live-streaming/test.js
+/bbb-live-streaming/test.sh
+/streaming_stats/gl*

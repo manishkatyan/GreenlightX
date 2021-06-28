@@ -14,6 +14,7 @@
     "bigbluebutton-js": "^0.2.0",
     "dotenv": "^8.6.0",
     "puppeteer": "^9.1.1",
+    "tree-kill": "^1.2.2",
     "xvfb": "^0.4.0"
   }
 }

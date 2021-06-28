@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const Xvfb      = require('xvfb');
 const child_process = require('child_process');
-const bbb = require('bigbluebutton-js')
+const bbb = require('bigbluebutton-js');
+const { kill } = require('process');
 // variables
 var BBB_URL = process.argv[2];
 var bbb_url_obj = new URL(BBB_URL)
@@ -162,7 +163,7 @@ async function main() {
         //  ffmpeg screen record start
          const ls = child_process.spawn('sh ',
                     ['/usr/src/app/bbb-live-streaming/start.sh',' ',`${RTMP_URL}`,' ', `${disp_num}`],
-                    { shell: true });
+                    { shell: true});
         
                     ls.stdout.on('data', (data) => {
                         console.log(`stdout: ${data}`);
@@ -174,29 +175,19 @@ async function main() {
                 
                     ls.on('close', (code) => {
                         console.log(`child process exited with code ${code}`);});
+
+                    [`exit`, `SIGINT`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+                            process.on(eventType, function(){console.log(`${eventType}`)
+                           if ([`exit`, `SIGINT`, `uncaughtException`, `SIGTERM`].includes(eventType))
+                           {kill(ls.pid)}
+                        });
+                    })
   
-        await page.waitForSelector('[data-test="meetingEndedModal"]', {timeout: 0});
+        await page.waitForSelector('[data-test="meetingEndedModalTitle"]', {timeout: 0});
 
         console.log("meeting ended")
-
-
-        const rec = child_process.spawn('sh',
-                    ['/usr/src/app/bbb-live-streaming/stop.sh'],
-                    { shell: true });
+        kill(ls.pid)
         
-                    rec.stdout.on('data', (data) => {
-                        console.log(`stdout: ${data}`);
-                    });
-                
-                    rec.stderr.on('data', (data) => {
-                        console.error(`stderr: ${data}`);
-                    });
-                
-                    rec.on('close', (code) => {
-                        console.log(`child process exited with code ${code}`);});
-
-
-
     }catch(err) {
         console.log(err)
     } finally {
