@@ -3,6 +3,7 @@ const Xvfb      = require('xvfb');
 const child_process = require('child_process');
 const bbb = require('bigbluebutton-js');
 const { kill } = require('process');
+
 // variables
 var BBB_URL = process.argv[2];
 var bbb_url_obj = new URL(BBB_URL)
@@ -17,12 +18,14 @@ var RTMP_URL = process.argv[9]
 var VIEWER_URL = process.argv[10]
 let api = bbb.api(BBB_URL, BBB_SECRET)
 let http = bbb.http
-var disp_num = Math.floor(Math.random() * (200 - 99) + 99);
-var xvfb = new Xvfb({
-    displayNum: disp_num,
-    silent: true,
-    xvfb_args: ["-screen", "0", "1280x800x24", "-ac", "-nolisten", "tcp", "-dpi", "96", "+extension", "RANDR"]
-});
+
+// var disp_num = Math.floor(Math.random() * (200 - 99) + 99);
+// var xvfb = new Xvfb({
+//     displayNum: disp_num,
+//     silent: true,
+//     xvfb_args: ["-screen", "0", "1280x800x24", "-ac", "-nolisten", "tcp", "-dpi", "96", "+extension", "RANDR"]
+// });
+
 var width       = 1280;
 var height      = 800;
 var options     = {
@@ -38,6 +41,9 @@ var options     = {
     
   ],
 }
+
+// change the executable path for macos 
+// running which google-chrome might give you the correct path
 options.executablePath = "/usr/bin/google-chrome"
 
 async function main() {
@@ -66,7 +72,7 @@ async function main() {
     let browser, page;
 
     try{
-        xvfb.startSync()
+        // xvfb.startSync()
         var JOIN_PARAM = {
             'userdata-bbb_force_listen_only' : 'false',
             'userdata-bbb_listen_only_mode': 'true',
@@ -161,6 +167,8 @@ async function main() {
         
         console.log("meeting started")
         //  ffmpeg screen record start
+        // change the path of shell script
+
          const ls = child_process.spawn('sh ',
                     ['/usr/src/app/bbb-live-streaming/start.sh',' ',`${RTMP_URL}`,' ', `${disp_num}`],
                     { shell: true});
@@ -193,7 +201,7 @@ async function main() {
     } finally {
         page.close && await page.close()
         browser.close && await browser.close()
-        xvfb.stopSync()
+        // xvfb.stopSync()
  
     }
 }

@@ -78,9 +78,14 @@ class StreamingController < ApplicationController
       flash.now[:success] = ("Streaming started succussfully")
 
     elsif (params[:commit] == "Stop") && (running)
-        
-      running = false
-      pid = 0
+      begin
+        Process.kill('SIGTERM', status_file_update_data["pid"].to_i)
+        pid = 0
+        running = false
+      rescue => exception
+        pid = 0
+        running = false
+      end
       status_file_update_data["running"] = running
       status_file_update_data["pid"] = pid
       update_status_file(status_file_update_data, @user.uid)
