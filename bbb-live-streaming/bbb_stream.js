@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const Xvfb      = require('xvfb');
 const child_process = require('child_process');
 const bbb = require('bigbluebutton-js');
-const { kill } = require('process');
+var kill  = require('tree-kill');
 // variables
 var BBB_URL = process.argv[2];
 var bbb_url_obj = new URL(BBB_URL)

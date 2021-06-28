@@ -55,10 +55,12 @@ class StreamingController < ApplicationController
       bbb_secret = Rails.configuration.bigbluebutton_secret
       meetingID = @streaming.meeting_id
       attendee_pw = @room.attendee_pw
-      hide_presentation =  Rails.configuration.hide_presentation
+      hide_presentation =  @streaming.hide_presentation == "1" ? "true" : "false" 
       hide_chat = Rails.configuration.hide_chat
       hide_user_list = Rails.configuration.hide_user_list
-      rtmp_url =  @streaming.url 
+      rtmp_url =   @streaming.url.ends_with?("/") ? @streaming.url : @streaming.url + "/"
+      streaming_key = @streaming.streaming_key
+      full_rtmp_url = rtmp_url + streaming_key
       viewer_url = @streaming.viewer_url
       start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
       pid = Process.spawn (start_streaming)
@@ -70,16 +72,19 @@ class StreamingController < ApplicationController
         "rtmp_url" => rtmp_url,
         "viewer_url" => viewer_url,
         "meeting_id" => meetingID,
-        "running" => running
+        "streaming_key" => streaming_key,
+        "running" => running,
+        "hide_presentation" => hide_presentation
       }
 
       update_status_file(status_file_update_data, @user.uid)
       logger.info "Streaming started at pid: #{pid}"
       flash.now[:success] = ("Streaming started succussfully")
 
-    elsif (params[:commit] == "Stop") && (running)
+    elsif (params[:commit] == "Stop") && (status_file_update_data["running"])
       begin
         Process.kill('SIGTERM', status_file_update_data["pid"].to_i)
+        logger.info "Streaming stopped; killed streaming processed, pid: #{pid}"
         pid = 0
         running = false
       rescue => exception
@@ -89,8 +94,6 @@ class StreamingController < ApplicationController
       status_file_update_data["running"] = running
       status_file_update_data["pid"] = pid
       update_status_file(status_file_update_data, @user.uid)
-
-      logger.info "Streaming stopped; killed streaming processed, pid: #{pid}"
       flash.now[:success] = ("Streaming stopped succussfully")
     end
   end

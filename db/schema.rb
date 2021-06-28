@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_061717) do
+ActiveRecord::Schema.define(version: 2021_06_28_154953) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_061717) do
     t.string "access_code"
     t.boolean "deleted", default: false, null: false
     t.string "moderator_access_code"
+    t.string "rtmpurl"
     t.index ["bbb_id"], name: "index_rooms_on_bbb_id"
     t.index ["deleted"], name: "index_rooms_on_deleted"
     t.index ["last_session"], name: "index_rooms_on_last_session"
@@ -128,6 +129,8 @@ ActiveRecord::Schema.define(version: 2021_06_25_061717) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "viewer_url"
+    t.string "streaming_key"
+    t.string "hide_presentation"
   end
 
   create_table "users", force: :cascade do |t|
