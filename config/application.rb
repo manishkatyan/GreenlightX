@@ -183,10 +183,10 @@ module Greenlight
 
     # Default admin password
     config.admin_password_default = ENV['ADMIN_PASSWORD'] || 'administrator'
-    # custom parametor
+    # custom parameter
     config.custom_parameters = ENV['CUSTOM_PARAMETORS'] || ''
 
-    # streaming 
+    # streaming parameter
     config.hide_chat = ENV['HIDE_CHAT'] || "true"
     config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
 
