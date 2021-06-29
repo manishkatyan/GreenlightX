@@ -15,7 +15,7 @@
 /public/system/**
 /public/assets/**
 /public/b/**
-
+.history
 # Ignore uploaded files
 /storage
 
@@ -49,3 +49,16 @@ coverage*
 
 /atom-sftp-sync.json
 vendor/
+
+/bbb-live-streamingcomposer.phar
+/bbb-live-streaming/vendor/
+/bbb-live-streaming.env
+bbb-live-streamingffmpeg_cmd.sh
+/bbb-live-streaming/node_modules/
+/bbb-live-streaming/nodetext.js
+/bbb-live-streaming/__pycache__
+/bbb-live-streaming/tmp
+/bbb-live-streaming/bbb_api_test.js
+/bbb-live-streaming/test.js
+/bbb-live-streaming/test.sh
+/streaming_stats/gl-*

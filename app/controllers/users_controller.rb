@@ -34,6 +34,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.provider = @user_domain
 
+    @user.streaming = true
     # User or recpatcha is not valid
     render("sessions/new") && return unless valid_user_or_captcha
 
@@ -235,7 +236,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :image, :password, :password_confirmation,
-      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status)
+      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :streaming)
   end
 
   def send_registration_email

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_225652) do
+ActiveRecord::Schema.define(version: 2021_06_29_044642) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(version: 2021_06_21_225652) do
     t.string "meeting_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "viewer_url"
+    t.string "streaming_key"
+    t.string "show_presentation"
   end
 
   create_table "users", force: :cascade do |t|
@@ -153,6 +156,7 @@ ActiveRecord::Schema.define(version: 2021_06_21_225652) do
     t.datetime "last_login"
     t.string "subscription_id"
     t.string "subscription_status"
+    t.boolean "streaming"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"
