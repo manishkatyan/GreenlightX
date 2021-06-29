@@ -2,7 +2,7 @@
 <% start_disable = streaming_running_meetings.length > 0 ? false : true%>
 <% disabled = stream_data ? true : false %>
 <% streaming = if stream_data["running"] then true else false end %>
-<% checked = if stream_data["hide_presentation"] == "true" then true else false end %>
+<% checked = if stream_data["show_presentation"] == "true" then false else true end %>
 <div class="container">
   <div class="row pt-7">
     <div class="col col-lg-6 offset-lg-3">
@@ -33,7 +33,7 @@
                 <div class="form-group">
                  <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
                 <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Show presentation</span>
-                <%= f.check_box :hide_presentation, checked: checked, class: "custom-switch-input"%>
+                <%= f.check_box :show_presentation, checked: checked, class: "custom-switch-input"%>
                 <span class="custom-switch-indicator float-right"></span>
                  </label>
                 </div>

@@ -189,7 +189,6 @@ module Greenlight
     # streaming 
     config.hide_chat = ENV['HIDE_CHAT'] || "true"
     config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
-    config.hide_presentation = ENV['HIDE_PRESENTATION'] || "false"
 
   end
 end

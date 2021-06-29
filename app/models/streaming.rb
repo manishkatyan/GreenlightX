@@ -3,5 +3,5 @@ class Streaming < ApplicationRecord
     validates :meeting_id, presence: false
     validates :viewer_url, presence: false
     validates :streaming_key, presence: false
-    validates :hide_presentation, presence: false
+    validates :show_presentation, presence: false
 end

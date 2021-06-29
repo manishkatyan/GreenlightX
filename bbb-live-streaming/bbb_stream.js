@@ -10,7 +10,7 @@ BBB_URL = bbb_url_obj.origin + "/bigbluebutton/"
 var BBB_SECRET = process.argv[3];
 var MEETING_ID = process.argv[4];
 var ATTENDIEE_PW = process.argv[5]
-var HIDE_PRESENTATION = process.argv[6]
+var SHOW_PRESENTATION = process.argv[6]
 var HIDE_CHAT = process.argv[7]
 var HIDE_USER_LIST = process.argv[8]
 var RTMP_URL = process.argv[9]
@@ -74,8 +74,8 @@ async function main() {
             'userdata-bbb_show_public_chat_on_login': 'true'        
          }
 
-        //  Hides presentation if HIDE_PRESENTATION is true
-         if (HIDE_PRESENTATION == 'true'){
+        //  Hides presentation if SHOW_PRESENTATION is true
+         if (SHOW_PRESENTATION == 'false'){
              JOIN_PARAM['userdata-bbb_auto_swap_layout'] = 'true'
          }
 
