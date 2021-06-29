@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_154953) do
+ActiveRecord::Schema.define(version: 2021_06_29_044642) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_154953) do
     t.datetime "last_login"
     t.string "subscription_id"
     t.string "subscription_status"
+    t.boolean "streaming"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"

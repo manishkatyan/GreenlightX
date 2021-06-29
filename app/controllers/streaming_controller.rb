@@ -4,12 +4,14 @@ class StreamingController < ApplicationController
   # Initialize Global variable pid
   def streaming_status(uid)
     json_file = "/usr/src/app/streaming_stats/#{uid}.json"
+    # json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
     status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
     return status_file
   end
 
   def update_status_file(json_data, uid)
     json_file = "/usr/src/app/streaming_stats/#{uid}.json"
+    # json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
     if (File.file?(json_file))
       File.write(json_file, JSON.dump(json_data))
       logger.error "Updated streaming status file for : #{json_data["meeting_name"]}"
@@ -24,12 +26,24 @@ class StreamingController < ApplicationController
   #method to render streaming page i.e "get /streaming"  
   def show
     @streaming = Streaming.new
-    uid = User.find_by(id: session[:user_id]).uid
+    @user = User.find_by(id: session[:user_id])
+    if @user.streaming
+      uid = @user.uid
     json_file = "/usr/src/app/streaming_stats/#{uid}.json"
-    json_data = {"pid" => 0, "running" => false}
+    # json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_data = {"pid" => 0, "running" => false, "streaming_enabled" => @user.streaming}
     streaming_running = streaming_status(uid)
     streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
-    render('streaming/create')
+    render 'streaming/create' 
+    else
+      render "errors/greenlight_error", status: 403, formats: :html,
+      locals: {
+        status_code: 403,
+        message: "Streaming is disabled",
+        help:"Please contact admin for more details",
+      }
+
+  end
   end
 
   # It returns id the any room that belongs to current user is running?
@@ -55,14 +69,15 @@ class StreamingController < ApplicationController
       bbb_secret = Rails.configuration.bigbluebutton_secret
       meetingID = @streaming.meeting_id
       attendee_pw = @room.attendee_pw
-      hide_presentation =  @streaming.hide_presentation == "1" ? "true" : "false" 
+      hide_presentation =  @streaming.hide_presentation == "1" ? "false" : "true" 
       hide_chat = Rails.configuration.hide_chat
       hide_user_list = Rails.configuration.hide_user_list
       rtmp_url =   @streaming.url.ends_with?("/") ? @streaming.url : @streaming.url + "/"
       streaming_key = @streaming.streaming_key
       full_rtmp_url = rtmp_url + streaming_key
       viewer_url = @streaming.viewer_url
-      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{rtmp_url} #{viewer_url}"
+      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
+      # start_streaming = "node /home/arunkumar/Documents/GitHub/GreenlightX/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{hide_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
       pid = Process.spawn (start_streaming)
       Process.detach(pid)
       running = true
@@ -74,7 +89,8 @@ class StreamingController < ApplicationController
         "meeting_id" => meetingID,
         "streaming_key" => streaming_key,
         "running" => running,
-        "hide_presentation" => hide_presentation
+        "hide_presentation" => hide_presentation,
+        "streaming_enabled" => @user.streaming
       }
 
       update_status_file(status_file_update_data, @user.uid)

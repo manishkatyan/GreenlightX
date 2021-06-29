@@ -1,4 +1,5 @@
 <% stream_data = streaming_data %>
+<% start_disable = streaming_running_meetings.length > 0 ? false : true%>
 <% disabled = stream_data ? true : false %>
 <% streaming = if stream_data["running"] then true else false end %>
 <% checked = if stream_data["hide_presentation"] == "true" then true else false end %>
@@ -15,23 +16,23 @@
         <% end %>
             <%= form_for @streaming, url: streaming_path, method: :post do |f|  %>
                 <div class="form-group">
-                    <%= f.label :url, "Enter RTMP URL", class: "form-label" %>
+                    <%= f.label :url, "RTMP URL", class: "form-label" %>
                     <%= f.text_field :url, class: "form-control #{form_is_invalid?(@streaming, :url)}", placeholder: "RTMP URL from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["rtmp_url"], readonly: streaming %>
                     <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:url).first %></div>
                 </div>
                 <div class="form-group">
-                    <%= f.label :streaming_key, "Enter RTMP KEY", class: "form-label" %>
-                    <%= f.text_field :streaming_key, class: "form-control #{form_is_invalid?(@streaming, :streaming_key)}", placeholder: "RTMP KEY from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["streaming_key"], readonly: streaming %>
+                    <%= f.label :streaming_key, "Streaming KEY", class: "form-label" %>
+                    <%= f.text_field :streaming_key, class: "form-control #{form_is_invalid?(@streaming, :streaming_key)}", placeholder: "Streaming KEY from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["streaming_key"], readonly: streaming %>
                     <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:streaming_key).first %></div>
                 </div>
                 <div class="form-group">
-                    <%= f.label :viewer_url, "Enter VIEWER URL", class: "form-label" %>
+                    <%= f.label :viewer_url, "Viewer URL", class: "form-label" %>
                     <%= f.text_field :viewer_url, class: "form-control #{form_is_invalid?(@streaming, :viewer_url)}", placeholder: "URL to view Live streaming", autofocus: "", required: "", value: stream_data["viewer_url"], readonly: streaming %>
                     <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:viewer_url).first %></div>
                 </div>
                 <div class="form-group">
                  <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
-                <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Hide presentation</span>
+                <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Show presentation</span>
                 <%= f.check_box :hide_presentation, checked: checked, class: "custom-switch-input"%>
                 <span class="custom-switch-indicator float-right"></span>
                  </label>
@@ -51,7 +52,7 @@
                     <%= button_tag onclick: "location.reload();", type: :button, class: "btn btn-outline-primary mx-2 sign-in-button" do %>
                       Refresh
                     <% end %>
-                    <%= f.submit "Start", class: "btn btn-outline-primary mx-2 sign-in-button" %>
+                    <%= f.submit "Start", class: "btn btn-outline-primary mx-2 sign-in-button", :disabled => start_disable %>
                     
                 <% else %>
                     <%= button_tag onclick: "location.reload();", type: :button, class: "btn btn-outline-primary mx-2 sign-in-button" do %>
