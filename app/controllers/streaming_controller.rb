@@ -3,15 +3,13 @@ require 'json'
 class StreamingController < ApplicationController
   # Initialize Global variable pid
   def streaming_status(uid)
-    # json_file = "/usr/src/app/streaming_stats/#{uid}.json"
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
     return status_file
   end
 
   def update_status_file(json_data, uid)
-    # json_file = "/usr/src/app/streaming_stats/#{uid}.json"
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     if (File.file?(json_file))
       File.write(json_file, JSON.dump(json_data))
       logger.error "Updated streaming status file for : #{json_data["meeting_name"]}"
@@ -29,8 +27,7 @@ class StreamingController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     if @user.streaming
       uid = @user.uid
-    # json_file = "/usr/src/app/streaming_stats/#{uid}.json"
-    json_file = "/home/arunkumar/Documents/GitHub/GreenlightX/streaming_stats/#{uid}.json"
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
     json_data = {"pid" => 0, "running" => false, "streaming_enabled" => @user.streaming}
     streaming_running = streaming_status(uid)
     streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
@@ -76,8 +73,7 @@ class StreamingController < ApplicationController
       streaming_key = @streaming.streaming_key
       full_rtmp_url = rtmp_url + streaming_key
       viewer_url = @streaming.viewer_url
-      # start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
-      start_streaming = "node /home/arunkumar/Documents/GitHub/GreenlightX/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
+      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
       pid = Process.spawn (start_streaming)
       Process.detach(pid)
       running = true
