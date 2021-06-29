@@ -94,8 +94,6 @@ ENV VERSION_CODE=$version_code
 # install node dependencies
 RUN cd bbb-live-streaming && npm install
 
-# start pulse audio
 # Start the application.
-ENTRYPOINT "bash /usr/src/app/docker-entrypoint.sh"
 
 CMD ["bin/start"]
