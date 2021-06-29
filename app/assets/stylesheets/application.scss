@@ -46,12 +46,14 @@
 @import "sessions";
 @import "utilities/fonts";
 @import "users";
+@import "subscription";
 
 * {
   outline: none !important;
 }
 
-html, body {
+html,
+body {
   font-family: "Source Sans Pro" !important;
   position: relative;
   width: 100%;
@@ -142,11 +144,11 @@ a {
 }
 
 input:focus {
-    border-color: $primary !important;
+  border-color: $primary !important;
 }
 
 .input-group button:focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .list-group-item-action.active {
@@ -176,7 +178,7 @@ table {
   }
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 
@@ -185,7 +187,7 @@ table {
 }
 
 .btn i {
-  transition: all .15s;
+  transition: all 0.15s;
 }
 
 .nav-icon i {

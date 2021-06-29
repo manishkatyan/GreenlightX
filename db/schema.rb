@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 2021_06_29_044642) do
     t.datetime "last_login"
     t.string "subscription_id"
     t.string "subscription_status"
-    t.boolean "streaming"
+    t.boolean "streaming", default: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"
