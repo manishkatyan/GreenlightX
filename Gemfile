@@ -52,7 +52,7 @@ gem 'uglifier', '~> 4.2.0'
 group :production do
   gem 'hiredis', '~> 0.6.3'
   gem "lograge", '~> 0.11.2'
-  gem 'pg', '~> 0.18'
+  #gem 'pg', '~> 0.18'
   gem 'redis', '~> 4.2.5'
   gem 'sequel', '~> 5.41.0'
 end

@@ -73,8 +73,13 @@
   <td>
     <% if recording[:published] %>
       <% sorted_formats = recording[:playbacks].sort_by! { |p| p[:type] } %>
-      <% sorted_formats.each do |p| %>
-        <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
+      <% sorted_formats.each do |p| %>   
+         <% if current_user.mp4? %>
+          <%= link_to "MP4 Recording", "#" , class: "btn btn-sm btn-primary", target: "_blank" %>
+         <% else %>
+          <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
+         <% end %>
+        
       <% end %>
     <% end %>
   </td>
