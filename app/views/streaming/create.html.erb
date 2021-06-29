@@ -2,7 +2,7 @@
 <% start_disable = streaming_running_meetings.length > 0 ? false : true%>
 <% disabled = stream_data ? true : false %>
 <% streaming = if stream_data["running"] then true else false end %>
-<% checked = if stream_data["show_presentation"] == "true" then false else true end %>
+<% checked = if stream_data["show_presentation"] == "true" then true else false end %>
 <div class="container">
   <div class="row pt-7">
     <div class="col col-lg-6 offset-lg-3">
