@@ -77,7 +77,6 @@
          <% if current_user.mp4? 
          mp4_url = Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4"
          %>
-          <% logger.info " =============== #{mp4_url}" %>
           <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
          <% else %>
           <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
@@ -93,7 +92,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right">
         <% recording_links = "" %>
-        <% p = recording[:playbacks].each do |p| recording_links.concat(p[:url] + "\n\n") if p.key?(:length) end %>
+        <% p = recording[:playbacks].each do |p|  (p.key?(:length) && current_user.mp4?) ? recording_links.concat((Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4") + "\n\n") : recording_links.concat(p[:url] + "\n\n")  end %>
         <% if p %>
           <a class="dropdown-item email-link" data-pres-link="<%= recording_links %>"><i class="dropdown-icon far fa-envelope"></i> <%= t("recording.email") %></a>
           <div class="dropdown-divider"></div>
