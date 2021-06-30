@@ -184,11 +184,15 @@ module Greenlight
     # Default admin password
     config.admin_password_default = ENV['ADMIN_PASSWORD'] || 'administrator'
     # custom parameter
-    config.custom_parameters = ENV['CUSTOM_PARAMETORS'] || ''
+    config.custom_parameters = ENV['CUSTOM_PARAMETORS'].present? ? ENV['CUSTOM_PARAMETORS'] : '[]'
 
     # streaming parameter
     config.hide_chat = ENV['HIDE_CHAT'] || "true"
     config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
 
+    # mp4 url
+    config.mp4_url = ENV['MP4_URL']
+    config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
+    config.mp4_url += "/" unless config.mp4_url.end_with?("/")
   end
 end
