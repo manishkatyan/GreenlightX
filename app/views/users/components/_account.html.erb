@@ -34,6 +34,7 @@
       </div>
     </div>
     <% if current_user.role.get_permission("can_manage_users") %>
+    <div class="subscription-setting-block">
     <div class="row">
       <div class="col-sm-6 mb-4">
        <%= f.label :subscription_id, t("settings.account.subscription"), class: "form-label mt-5" %>
@@ -48,6 +49,7 @@
           </select>
       </div>
     </div>
+<<<<<<< HEAD
     <div class="form-group">
       <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
       <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Enable streaming</span>
@@ -55,6 +57,28 @@
       <span class="custom-switch-indicator float-right"></span>
       </label>
     </div>
+=======
+
+    <div class="row">
+      <div class="col-sm-6 mb-4">
+          <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
+          <span class="ml-0 custom-switch-description" style="font-weight: 550; color:#555">Enable Live Streaming</span>
+          <%= f.check_box :streaming, checked: @user.streaming, class: "custom-switch-input"%>
+          <span class="custom-switch-indicator float-right"></span>
+          </label>
+      </div>
+      <div class="col-sm-6 mb-4">
+          <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
+          <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Enable MP4 Recording</span>
+          <%= f.check_box :mp4, checked: @user.mp4, class: "custom-switch-input"%>
+          <span class="custom-switch-indicator float-right"></span>
+          </label>
+      </div>
+    </div>  
+
+    </div>
+    
+>>>>>>> 46271222051ed2aad0b5c36be296dcf9d03e9b2f
     <% end %>
 
     <div class="row">
@@ -86,9 +110,6 @@
       <% end %>
     </select>
     <%= f.hidden_field :language, id: "user_language", value: @user.language %>
-
-
-    
 
     <%= f.label :image, t("settings.account.image"), class: "form-label mt-5" %>
     <div class="row">
