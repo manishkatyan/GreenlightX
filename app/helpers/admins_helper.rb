@@ -139,8 +139,8 @@ module AdminsHelper
     end
   end
 
-  # streaming
-  def streaming(room_id)
+  # streaming status
+  def is_streaming(room_id)
     user_id = Room.where(id: room_id).first.user_id
     uid = User.where(id: user_id).first.uid
     json_file = "/usr/src/app/streaming_stats/#{uid}.json"

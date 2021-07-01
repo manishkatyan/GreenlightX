@@ -51,10 +51,10 @@
     <% end %>
   </td>
   <td class="text-left">
-    <% if streaming(room.id) %>
-      Yes
+    <% if is_streaming(room.id) %>
+      Streaming
     <% else %>
-      No
+      Not
     <% end %>
   </td>
   <td class="text-center">
