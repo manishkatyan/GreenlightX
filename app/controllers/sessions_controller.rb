@@ -111,7 +111,7 @@ class SessionsController < ApplicationController
       end
     end
     # if subscription_status is not Active then dont allow user to login
-    if user.subscription_status == "Active"
+    if user.subscription_status == "Active" || is_super_admin
       login(user)
     else
       return redirect_to(signin_path, alert: "Your account is #{user.subscription_status}, Contact Administrator for more details")
