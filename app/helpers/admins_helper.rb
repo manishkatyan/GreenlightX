@@ -139,8 +139,16 @@ module AdminsHelper
     end
   end
 
-  # Roles
+  # streaming status
+  def is_streaming(room_id)
+    user_id = Room.where(id: room_id).first.user_id
+    uid = User.where(id: user_id).first.uid
+    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
+    status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
+    status_file ?  status_file["running"] : false
+  end
 
+  # Roles
   def edit_disabled
     @edit_disabled ||= @selected_role.priority <= current_user.role.priority
   end

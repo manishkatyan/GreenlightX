@@ -183,8 +183,8 @@ module Greenlight
 
     # Default admin password
     config.admin_password_default = ENV['ADMIN_PASSWORD'] || 'administrator'
-    # custom parameter
-    config.custom_parameters = ENV['CUSTOM_PARAMETORS'].present? ? ENV['CUSTOM_PARAMETORS'] : '[]'
+    # application parameter
+    config.application_parameters = ENV['APPLICATION_PARAMETERS'].present? ? ENV['APPLICATION_PARAMETERS'] : '[]'
 
     # streaming parameter
     config.hide_chat = ENV['HIDE_CHAT'] || "true"
@@ -194,5 +194,10 @@ module Greenlight
     config.mp4_url = ENV['MP4_URL']
     config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
     config.mp4_url += "/" unless config.mp4_url.end_with?("/")
+
+
+    # Twilio
+    config.twilio_number = ENV['TWILIO_NUMBER'].present? ? ENV['TWILIO_NUMBER'] : false
+
   end
 end
