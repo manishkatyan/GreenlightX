@@ -110,8 +110,12 @@ class SessionsController < ApplicationController
         return redirect_to(account_activation_path(digest: user.activation_digest))
       end
     end
-
-    login(user)
+    # if subscription_status is not Active then dont allow user to login
+    if user.subscription_status == "Active"
+      login(user)
+    else
+      return redirect_to(signin_path, alert: "Your account is #{user.subscription_status}, Contact Administrator for more details")
+    end
   end
 
   # POST /users/logout
@@ -251,8 +255,7 @@ class SessionsController < ApplicationController
 
     user.set_role(initial_user_role(user.email)) if !@user_exists && user.role.nil?
 
-    login(user)
-
+      login(user)
     if @auth['provider'] == "twitter"
       flash[:alert] = if allow_user_signup? && allow_greenlight_accounts?
         I18n.t("registration.deprecated.twitter_signin", link: signup_path(old_twitter_user_id: user.id))

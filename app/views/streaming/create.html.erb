@@ -43,6 +43,7 @@
                       <%= f.label :meeting_id, "Select the meeting to stream", class: "form-label mt-5" %>
                       <select id="streaming_meeting_id" name="streaming[meeting_id]" class="selectpicker show-tick w-50">
                           <% streaming_running_meetings.each do |meeting_id, meeting_title| %>
+                          <%logger.info "=========================================#{meeting_id},#{meeting_title}"%>
                           <option value="<%= meeting_id %>"><%= meeting_title %></option>
                           <% end %>
                       </select>
