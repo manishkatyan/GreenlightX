@@ -183,7 +183,7 @@ module Greenlight
 
     # Default admin password
     config.admin_password_default = ENV['ADMIN_PASSWORD'] || 'administrator'
-    # custom parameter
+    # application parameter
     config.application_parameters = ENV['APPLICATION_PARAMETERS'].present? ? ENV['APPLICATION_PARAMETERS'] : '[]'
 
     # streaming parameter
@@ -195,7 +195,9 @@ module Greenlight
     config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
     config.mp4_url += "/" unless config.mp4_url.end_with?("/")
 
+
     # Twilio
     config.twilio_number = ENV['TWILIO_NUMBER'].present? ? ENV['TWILIO_NUMBER'] : false
+
   end
 end
