@@ -191,11 +191,12 @@ module Greenlight
     config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
 
     # mp4 url
-    config.mp4_url = ENV['MP4_URL']
-    config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
-    config.mp4_url += "/" unless config.mp4_url.end_with?("/")
-
-
+    config.mp4_url = ENV['MP4_URL'].present?
+    if config.mp4_url 
+      config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
+      config.mp4_url += "/" unless config.mp4_url.end_with?("/")
+    end
+    
     # Twilio
     config.twilio_number = ENV['TWILIO_NUMBER'].present? ? ENV['TWILIO_NUMBER'] : false
 
