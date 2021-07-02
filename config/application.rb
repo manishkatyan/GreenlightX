@@ -191,7 +191,7 @@ module Greenlight
     config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
 
     # mp4 url
-    config.mp4_url = ENV['MP4_URL'].present?
+    config.mp4_url = ENV['MP4_URL'].present? ? ENV['MP4_URL'] : false
     if config.mp4_url 
       config.mp4_url = "https://" +  config.mp4_url unless config.mp4_url.start_with?("https://")
       config.mp4_url += "/" unless config.mp4_url.end_with?("/")
