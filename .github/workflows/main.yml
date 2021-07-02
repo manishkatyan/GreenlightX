@@ -6,6 +6,7 @@ env:
   DB_USERNAME: postgres
   DB_PASSWORD: postgres
   DB_PORT: 5432
+  MP4_URL: example.com/abc
 
 name: CI
 on:
