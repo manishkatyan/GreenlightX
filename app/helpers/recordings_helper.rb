@@ -42,6 +42,14 @@ module RecordingsHelper
     Rails.configuration.recording_thumbnails
   end
 
+  def public_mp4_recording(bbb_id)
+    begin
+      User.find_by(id:  Room.find_by(bbb_id: bbb_id).user_id).mp4?
+    rescue => exception
+      return true
+    end
+  end
+
   private
 
   # Returns length of the recording as a string
