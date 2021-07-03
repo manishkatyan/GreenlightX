@@ -11,7 +11,7 @@ class SubscriptionsController < ApplicationController
       )
     rescue JSON::ParserError => e
       # Invalid payload
-      status 400
+      
       return
     end
   

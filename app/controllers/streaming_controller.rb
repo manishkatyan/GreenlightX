@@ -31,7 +31,7 @@ class StreamingController < ApplicationController
     json_data = {"pid" => 0, "running" => false, "streaming_enabled" => @user.streaming}
     streaming_running = streaming_status(uid)
     streaming_running ? streaming_running["pid"] : File.new(json_file, 'w').syswrite(JSON.dump(json_data))
-    render: create
+    render 'streaming/create'
     else
       render "errors/greenlight_error", status: 403, formats: :html,
       locals: {
