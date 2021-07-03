@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get '/subscriptions/create', to: 'subscriptions#create'
   get '/subscriptions/success', to: 'subscriptions#success'
   get '/subscriptions/cancel', to: 'subscriptions#cancel'
+  post '/subscriptions/webhook', to: 'subscriptions#webhook'
 
   get '/analytics', to: 'analytics#performance'
   get '/health_check', to: 'health_check#all'

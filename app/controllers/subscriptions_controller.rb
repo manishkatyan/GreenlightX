@@ -1,4 +1,31 @@
 class SubscriptionsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :webhook
+
+
+  def webhook
+    payload = request.body.read
+    event = nil
+    begin
+      event = Stripe::Event.construct_from(
+        JSON.parse(payload, symbolize_names: true)
+      )
+    rescue JSON::ParserError => e
+      # Invalid payload
+      status 400
+      return
+    end
+  
+    # Handle the event
+    case event.type
+    when 'payment_intent.succeeded'
+      payment_intent = event.data.object
+      logger.info "=====#{payment_intent}"
+    else
+      puts "Unhandled event type: #{event.type}"
+    end
+    
+  end
+
   def show
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 

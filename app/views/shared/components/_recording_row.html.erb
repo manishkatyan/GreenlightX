@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 %>
-
+<% mp4 = current_user.mp4? && Rails.configuration.mp4_url %>
 <tr>
   <td>
     <div id="recording-title" class="edit_hover_class" data-recordid="<%= recording[:recordID] %>" data-room-uid="<%= room_uid_from_bbb(recording[:meetingID]) %>" data-path="<%= rename_recording_path(meetingID: recording[:meetingID], record_id: recording[:recordID]) %>">
@@ -71,18 +71,15 @@
     </div>
   </td>
   <td>
-    <% if recording[:published] %>
+    <% if recording[:published] && mp4%>
       <% sorted_formats = recording[:playbacks].sort_by! { |p| p[:type] } %>
       <% sorted_formats.each do |p| %>  
-         <% if current_user.mp4? 
-         mp4_url = Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4"
-         %>
-          <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
-         <% else %>
-          <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
-         <% end %>
-        
-      <% end %>
+         <% mp4_url = Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4" %>
+        <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
+        <% end %>
+    <% end %>
+    <% if recording[:published] && !mp4 %>
+      <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
     <% end %>
   </td>
   <td class="text-center">
@@ -92,8 +89,8 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right">
         <% recording_links = "" %>
-        <% p = recording[:playbacks].each do |p|  (p.key?(:length) && current_user.mp4?) ? recording_links.concat((Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4") + "\n\n") : recording_links.concat(p[:url] + "\n\n")  end %>
-        <% if p %>
+        <% p = recording[:playbacks].each do |p|  (p.key?(:length) && current_user.mp4? && Rails.configuration.mp4_url) ? recording_links.concat((Rails.configuration.mp4_url + URI.parse(p[:url]).path.split("/").pop + ".mp4") + "\n\n") : recording_links.concat(p[:url] + "\n\n")  end %>
+        <% if p  %>
           <a class="dropdown-item email-link" data-pres-link="<%= recording_links %>"><i class="dropdown-icon far fa-envelope"></i> <%= t("recording.email") %></a>
           <div class="dropdown-divider"></div>
         <% end %>

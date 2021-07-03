@@ -94,11 +94,12 @@ describe SessionsController, type: :controller do
     end
 
     before(:each) do
-      @user1 = create(:user, provider: 'greenlight', password: 'example', password_confirmation: 'example')
-      @user2 = create(:user, password: 'example', password_confirmation: "example")
+      @user1 = create(:user, provider: 'greenlight', password: 'example', password_confirmation: 'example', subscription_status: "Active")
+      @user2 = create(:user, password: 'example', password_confirmation: "example", subscription_status: "")
+      
     end
 
-    it "should login user in if credentials valid" do
+    it "should login user in if credentials valid and subscription is active" do
       post :create, params: {
         session: {
           email: @user1.email,
@@ -114,6 +115,16 @@ describe SessionsController, type: :controller do
         session: {
           email: @user1.email,
           password: 'invalid',
+        },
+      }
+
+      expect(@request.session[:user_id]).to be_nil
+    end
+    it "should not login user in if subscription is not active" do
+      post :create, params: {
+        session: {
+          email: @user2.email,
+          password: 'example',
         },
       }
 

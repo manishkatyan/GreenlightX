@@ -82,6 +82,7 @@ class SessionsController < ApplicationController
     user = User.include_deleted.find_by(email: session_params[:email].downcase)
 
     is_super_admin = user&.has_role? :super_admin
+    admin = user&.has_role? :admin
 
     # Scope user to domain if the user is not a super admin
     user = User.include_deleted.find_by(email: session_params[:email].downcase, provider: @user_domain) unless is_super_admin
@@ -110,8 +111,10 @@ class SessionsController < ApplicationController
         return redirect_to(account_activation_path(digest: user.activation_digest))
       end
     end
-    # if subscription_status is not Active then dont allow user to login
-    if user.subscription_status == "Active" || is_super_admin
+    
+    # if subscription_status is not Active then dont allow the user to login, allow logins for super_admin, admin for all cases
+    if user.subscription_status == "Active" || is_super_admin || admin
+
       login(user)
     else
       return redirect_to(signin_path, alert: "Your account is #{user.subscription_status}, Contact Administrator for more details")

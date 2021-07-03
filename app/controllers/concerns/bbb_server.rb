@@ -83,9 +83,18 @@ module BbbServer
     }
 
     # Twilio integration
-    if Rails.configuration.twilio_number && current_user.twilio?
+    begin
+      if Rails.configuration.twilio_number && current_user.twilio?
+        welcome = 'Welcome to the %%CONFNAME%% <br><br>To join this meeting by phone, dial:<br>  <a href="tel:' + Rails.configuration.twilio_number +  '">' + Rails.configuration.twilio_number + '</a> <br>Then enter %%CONFNUM%% as the conference PIN number.'
+        create_options.store("welcome", welcome)
+        create_options.store("dialNumber", Rails.configuration.twilio_number)
+      end
+     
+    # 500  error handling when users are tying to join via invite url
+    rescue => e
       welcome = 'Welcome to the %%CONFNAME%% <br><br>To join this meeting by phone, dial:<br>  <a href="tel:' + Rails.configuration.twilio_number +  '">' + Rails.configuration.twilio_number + '</a> <br>Then enter %%CONFNUM%% as the conference PIN number.'
       create_options.store("welcome", welcome)
+      create_options.store("dialNumber", Rails.configuration.twilio_number)
     end
 
     # handle the application parameter
