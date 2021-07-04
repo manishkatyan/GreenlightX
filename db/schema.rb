@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 2021_07_01_034224) do
     t.datetime "updated_at", null: false
     t.string "viewer_url"
     t.string "streaming_key"
-    t.string "hide_presentation"
+    t.string "show_presentation"
   end
 
   create_table "users", force: :cascade do |t|
