@@ -180,7 +180,7 @@ describe SessionsController, type: :controller do
 
     it "redirects the user to the page they clicked sign in from" do
       user = create(:user, provider: "greenlight",
-        password: "example", password_confirmation: 'example')
+        password: "example", password_confirmation: 'example', subscription_status: "Active")
 
       url = Faker::Internet.domain_name
 
@@ -199,7 +199,7 @@ describe SessionsController, type: :controller do
 
     it "redirects the user to their home room if they clicked the sign in button from root" do
       user = create(:user, provider: "greenlight",
-        password: "example", password_confirmation: 'example')
+        password: "example", password_confirmation: 'example', subscription_status: "Active")
 
       @request.cookies[:return_to] = root_url
 
@@ -216,7 +216,7 @@ describe SessionsController, type: :controller do
 
     it "redirects the user to their home room if return_to cookie doesn't exist" do
       user = create(:user, provider: "greenlight",
-        password: "example", password_confirmation: 'example')
+        password: "example", password_confirmation: 'example', subscription_status: "Active")
 
       post :create, params: {
         session: {
@@ -231,7 +231,7 @@ describe SessionsController, type: :controller do
 
     it "redirects to the admins page for admins" do
       user = create(:user, provider: "greenlight",
-        password: "example", password_confirmation: 'example')
+        password: "example", password_confirmation: 'example', subscription_status: "Active")
       user.set_role :super_admin
 
       post :create, params: {
