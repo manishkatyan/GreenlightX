@@ -26,6 +26,11 @@ module AdminsHelper
     Room.find_by(bbb_id: room_id).owner.email.presence || Room.find_by(bbb_id: room_id).owner.username
   end
 
+  # get user's mp4 access status
+  def recording_owner_have_mp4(room_id)
+    Room.find_by(bbb_id: room_id).owner.mp4
+  end
+
   # Get the room status to display in the Server Rooms table
   def room_is_running(id)
     @running_room_bbb_ids.include?(id)
