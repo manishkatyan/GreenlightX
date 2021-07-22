@@ -9,7 +9,7 @@ session = Stripe::Checkout::Session.create(
     line_items: [{
     # For metered billing, do not pass quantity
     quantity: 1,
-    price: ENV['STRIPE_PLAN_2'],
+    price: create,
     }]
 )
 %>

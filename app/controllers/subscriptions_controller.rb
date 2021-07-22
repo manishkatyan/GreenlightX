@@ -25,6 +25,11 @@ class SubscriptionsController < ApplicationController
     
   end
 
+  def create 
+    params[:plan_id]
+   end
+   helper_method :create
+
   def show
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
