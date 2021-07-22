@@ -1,51 +1,122 @@
+<% plan1 = "/subscriptions/create/" + ENV['STRIPE_PLAN_1']%>
+<% plan2 = "/subscriptions/create/" + ENV['STRIPE_PLAN_2']%>
+<% plan3 = "/subscriptions/create/" + ENV['STRIPE_PLAN_3']%>
+<% plan_free = "/subscriptions/create/" + ENV['STRIPE_PLAN_FREE']%>
+
 <div class="container mt-8 mb-6 text-center">
 <h2 class="mb-6">Subscription Plans</h2>
 
 <div class="pricing-wrapper">
 <div class="card-deck mb-3 text-center">
   <div class="card mb-4 shadow-sm">
-    <div class="card-header">
-      <h4 class="my-0 font-weight-normal">Lite</h4>
+    <div class="card-header d-block">
+      <h4 class="my-0 font-weight-normal">Free</h4>
+      <p class="pb-0  mt-2 mb-0">Try out our Free Plan</p>
     </div>
     <div class="card-body">
-      <h1 class="card-title pricing-card-title">$10 <small class="text-muted">/ mo</small></h1>
-      <ul class="list-unstyled mt-3 mb-4">
-        <li>10 users included</li>
-        <li>2 GB of storage</li>
-        <li>Email support</li>
-        <li>Help center access</li>
+      <h1 class="card-title pricing-card-title"> &#10003; Free<small class="text-muted"></small></h1>
+      <ul class="list-unstyled mt-3 mb-4 text-left">
+        <li> &#10003; Host up to 10 participants</li>
+        <li> &#10003; 2 GB of storage</li>
+        <li> &#10003; Translation (coming soon)</li>
+        <li> &#10003; Speech-to-Speech with translation (coming soon)</li>
+        <li> &#10003; Stream to Facebook, YouTube, Vimeo and more </li>
+        <li> &#10003; 24/7 Webinars</li>
+        <li> &#10003; No Downloads, All Browsers</li>
+        <li> &#10003; Mobile Compatible</li>
+        <li> &#10003; Chat, Polls, Q & A and Handouts</li>
+        <li> &#10003; Screen and Video sharing</li>
+        <li> &#10003; Recording</li>
+        <li> &#10003; Phone Dial-In Audio</li>
+        <li> &#10003; LMS Integration capable</li>
+        <li> &#10003; Help Center Access</li><br><br>
       </ul>
-      <a href="#"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
+      <a href= "<%=plan_free%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
     </div>
   </div>
   <div class="card mb-4 shadow-sm">
-    <div class="card-header">
-      <h4 class="my-0 font-weight-normal">Standard</h4>
+    <div class="card-header d-block">
+      <h4 class="my-0 font-weight-normal">Basic</h4>
+      <p class="pb-0  mt-2 mb-0">Perfect for personal meetings</p>
     </div>
     <div class="card-body">
-      <h1 class="card-title pricing-card-title">$25 <small class="text-muted">/ mo</small></h1>
-      <ul class="list-unstyled mt-3 mb-4">
-        <li>50 users included</li>
-        <li>10 GB of storage</li>
-        <li>Priority email support</li>
-        <li>Help center access</li>
+      <h1 class="card-title pricing-card-title"> &#10003; $10<small class="text-muted">/ mo</small></h1>
+      <ul class="list-unstyled mt-3 mb-4 text-left">
+        <li> &#10003; Host up to 10 participants</li>
+        <li> &#10003; 2 GB of storage</li>
+        <li> &#10003; Translation (coming soon)</li>
+        <li> &#10003; Speech-to-Speech with translation (coming soon)</li>
+        <li> &#10003; Stream to Facebook, YouTube, Vimeo and more </li>
+        <li> &#10003; 24/7 Webinars</li>
+        <li> &#10003; No Downloads, All Browsers</li>
+        <li> &#10003; Mobile Compatible</li>
+        <li> &#10003; Chat, Polls, Q & A and Handouts</li>
+        <li> &#10003; Screen and Video sharing</li>
+        <li> &#10003; Recording</li>
+        <li> &#10003; Phone Dial-In Audio</li>
+        <li> &#10003; LMS Integration capable</li>
+        <li> &#10003; Email Support</li>
+        <li> &#10003; Help Center Access</li><br><br>
       </ul>
-      <a href="/subscriptions/create"><button class="btn btn-lg btn-block btn-primary" >Subscribe</button></a>
+      <a href= "<%=plan1%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
     </div>
   </div>
   <div class="card mb-4 shadow-sm">
-    <div class="card-header">
-      <h4 class="my-0 font-weight-normal">Advanced</h4>
+    <div class="card-header d-block">
+      <h4 class="my-0 font-weight-normal">Pro</h4>
+      <p class="pb-0  mt-2 mb-0">Great for small teams</p>
     </div>
     <div class="card-body">
-      <h1 class="card-title pricing-card-title">$49 <small class="text-muted">/ mo</small></h1>
-      <ul class="list-unstyled mt-3 mb-4">
-        <li>100 users included</li>
-        <li>15 GB of storage</li>
-        <li>Phone and email support</li>
-        <li>Help center access</li>
+      <h1 class="card-title pricing-card-title"> &#10003; $25 <small class="text-muted">/ mo</small></h1>
+      <ul class="list-unstyled mt-3 mb-4 text-left">
+        <li> &#10003; Host up to 50 participants</li>
+        <li> &#10003; 10 GB of storage</li>
+        <li> &#10003; Translation (coming soon)</li>
+        <li> &#10003; Speech-to-Speech with translation (coming soon)</li>
+        <li> &#10003; Stream to Facebook, YouTube, Vimeo and more </li>
+        <li> &#10003; 24/7 Webinars</li>
+        <li> &#10003; No Downloads, All Browsers</li>
+        <li> &#10003; Mobile Compatible</li>
+        <li> &#10003; Chat, Polls, Q & A and Handouts</li>
+        <li> &#10003; Screen and Video sharing</li>
+        <li> &#10003; Recording</li>
+        <li> &#10003; Export Recording to MP4</li>
+        <li> &#10003; Phone Dial-In Audio</li>
+        <li> &#10003; LMS Integration capable</li>
+        <li> &#10003; Email Support</li>
+        <li> &#10003; Chat Support</li>
+        <li> &#10003; Help Center Access</li>
       </ul>
-      <a href="#"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
+      <a href= "<%=plan2%>"><button class="btn btn-lg btn-block btn-primary" >Subscribe</button></a>
+    </div>
+  </div>
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header d-block">
+      <h4 class="my-0 font-weight-normal">Premiere</h4>
+      <p class="pb-0  mt-2 mb-0">Designed for small businesses or classrooms</p>
+    </div>
+    <div class="card-body">
+      <h1 class="card-title pricing-card-title">&#10003; $50 <small class="text-muted">/ mo</small></h1>
+      <ul class="list-unstyled mt-3 mb-4 text-left">
+        <li> &#10003; Host up to 100 participants</li>
+        <li> &#10003; 15 GB of storage</li>
+        <li> &#10003; Translation (coming soon)</li>
+        <li> &#10003; Speech-to-Speech with translation (coming soon)</li>
+        <li> &#10003; Stream to Facebook, YouTube, Vimeo and more </li>
+        <li> &#10003; 24/7 Webinars</li>
+        <li> &#10003; No Downloads, All Browsers</li>
+        <li> &#10003; Mobile Compatible</li>
+        <li> &#10003; Chat, Polls, Q & A and Handouts</li>
+        <li> &#10003; Screen and Video sharing</li>
+        <li> &#10003; Recording</li>
+        <li> &#10003; Export Recording to MP4</li>
+        <li> &#10003; Phone Dial-In Audio</li>
+        <li> &#10003; LMS Integration capable</li>
+        <li> &#10003; Email Support</li>
+        <li> &#10003; Chat Support</li>
+        <li> &#10003; Help Center Access</li>
+      </ul>
+      <a href= "<%=plan3%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
     </div>
   </div>
 </div>

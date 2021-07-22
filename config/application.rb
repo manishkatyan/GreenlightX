@@ -200,5 +200,8 @@ module Greenlight
     # Twilio
     config.twilio_number = ENV['TWILIO_NUMBER'].present? ? ENV['TWILIO_NUMBER'] : false
 
+    # Enable transcript
+    config.enable_transcript = ENV['ENABLE_TRANSCRIPT'] || 'true'
+
   end
 end

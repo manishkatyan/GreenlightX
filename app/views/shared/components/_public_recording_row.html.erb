@@ -65,7 +65,7 @@
       <% next if hidden_format_public.include?(p[:type].downcase)%>
       <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
       <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
-      <%if transcript_file%>
+      <%if transcript_file && Rails.configuration.enable_transcript == "true"%>
         <%= link_to "Transcript", transcript_file, class: "btn btn-sm btn-primary", target: "_blank" %>
       <% end %>
     <% end %>
@@ -76,7 +76,7 @@
       <% transcript_file = transcript_file_name(record_id) %>
       <% sorted_formats.each do |p| %>
         <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
-          <%if transcript_file%>
+          <%if transcript_file && Rails.configuration.enable_transcript == "true"%>
               <%= link_to "Transcript", transcript_file, class: "btn btn-sm btn-primary", target: "_blank" %>
           <% end %>
         <% end %>
