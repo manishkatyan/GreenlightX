@@ -49,30 +49,34 @@ class SessionsController < ApplicationController
 
   # GET /signup
   def new
-    # Check if the user needs to be invited
-    if invite_registration
-      redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]
-
-      session[:invite_token] = params[:invite_token]
+    # Prevent users from directly accesing /signup 
+    if  request.referer.include?(subscriptions_success_path) || invite_registration
+      # Check if the user needs to be invited
+      if invite_registration
+        redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]
+  
+        session[:invite_token] = params[:invite_token]
+      end
+  
+      check_if_twitter_account(true)
+  
+      @user = User.new
+  
+      if params[:email] 
+        @user.email = params[:email]
+      end
+  
+      if params[:name] 
+        @user.name = params[:name]
+      end
+  
+      if params[:subscription_id]
+        @user.subscription_id = params[:subscription_id]
+        @user.subscription_status = "Active"
+      end
+    else
+      redirect_to root_path
     end
-
-    check_if_twitter_account(true)
-
-    @user = User.new
-
-    if params[:email] 
-      @user.email = params[:email]
-    end
-
-    if params[:name] 
-      @user.name = params[:name]
-    end
-
-    if params[:subscription_id]
-      @user.subscription_id = params[:subscription_id]
-      @user.subscription_status = "Active"
-    end
-
   end
 
   # POST /users/login
