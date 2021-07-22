@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
   # GET /signup
   def new
     # Prevent users from directly accesing /signup 
-    if  request.referer.include?(subscriptions_success_path) || invite_registration
+    if  request.referer && request.referer.include?(subscriptions_success_path) || invite_registration
       # Check if the user needs to be invited
       if invite_registration
         redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]

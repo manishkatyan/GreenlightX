@@ -25,11 +25,6 @@ class SubscriptionsController < ApplicationController
     
   end
 
-  def create 
-    params[:plan_id]
-   end
-   helper_method :create
-
   def show
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
@@ -42,8 +37,9 @@ class SubscriptionsController < ApplicationController
   end
 
   def create 
-  # Stripe Checkout Session create and page recirect  in create.html.erb
-  end
+    params[:plan_id]
+   end
+  helper_method :create
 
   def success
   # Response from Stripe after a successful payment. Retrieve user's details from session_id and send to signup page
