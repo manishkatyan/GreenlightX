@@ -200,6 +200,11 @@ class UsersController < ApplicationController
       login(current_user)
     end
   end
+  # GET /privacy
+
+  def privacy
+    redirect_to '/404' unless Rails.configuration.privacy
+  end
 
   # GET /shared_access_list
   def shared_access_list
