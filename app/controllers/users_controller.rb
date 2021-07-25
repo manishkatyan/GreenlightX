@@ -92,6 +92,10 @@ class UsersController < ApplicationController
       path = admins_path
     end
 
+    if params[:user][:subscription_status] == "Cancelled" && current_user.admin_of?(@user, "can_manage_users")
+      subscription_cancel(params[:user][:subscription_id])
+    end
+
     redirect_path = current_user.admin_of?(@user, "can_manage_users") ? path : edit_user_path(@user)
 
     unless can_edit_user?(@user, current_user)
@@ -111,7 +115,21 @@ class UsersController < ApplicationController
       end
     end
 
+
     render :edit
+  end
+
+  # calcel user subscription
+  def subscription_cancel(subscription_id)
+    Stripe.api_key=ENV['STRIPE_SECRET_KEY']
+    begin
+      Stripe::Subscription.delete(subscription_id)
+      logger.error "#{subscription_id} has been canceled"
+      flash[:alert] = "#{subscription_id} has been canceled"
+    rescue => exception
+      flash[:alert] = "Couldn't cancel the subscription for: #{subscription_id}, Please cancel it through stripe dashboard"
+      logger.error "#{exception}\n Couldn't cancel the subscription for: #{subscription_id}, Please cancel it through stripe dashboard"
+    end
   end
 
   # POST /u/:user_uid/change_password
@@ -200,12 +218,7 @@ class UsersController < ApplicationController
       login(current_user)
     end
   end
-  # GET /privacy
-
-  def privacy
-    redirect_to '/404' unless Rails.configuration.privacy
-  end
-
+  
   # GET /shared_access_list
   def shared_access_list
     # Don't allow searchs unless atleast 3 characters are passed
@@ -241,7 +254,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :image, :password, :password_confirmation,
-      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :streaming, :mp4, :twilio)
+      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :customer_id, :streaming, :mp4, :twilio)
   end
 
   def send_registration_email

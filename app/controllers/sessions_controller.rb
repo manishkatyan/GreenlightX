@@ -70,13 +70,20 @@ class SessionsController < ApplicationController
         @user.name = params[:name]
       end
   
-      if params[:subscription_id]
+      if params[:subscription_id] && params[:customer_id]
         @user.subscription_id = params[:subscription_id]
+        @user.customer_id = params[:customer_id]
         @user.subscription_status = "Active"
       end
     else
       redirect_to root_path
     end
+  end
+
+  def check_subscription(subscription_id)
+    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    status = Stripe::Subscription.retrieve(subscription_id).status
+    status == "trialing" ?  "active" : status
   end
 
   # POST /users/login
@@ -117,11 +124,11 @@ class SessionsController < ApplicationController
     end
     
     # if subscription_status is not Active then dont allow the user to login, allow logins for super_admin, admin for all cases
-    if user.subscription_status == "Active" || is_super_admin || admin
-
+    user.subscription_status =(admin || is_super_admin) ? "Active" : check_subscription(user.subscription_id).capitalize
+    if user.subscription_status == "Active"
       login(user)
     else
-      return redirect_to(signin_path, alert: "Your account is #{user.subscription_status}, Contact Administrator for more details")
+      return redirect_to(signin_path, alert: "Your account status #{user.subscription_status}, Contact Administrator for more details")
     end
   end
 

@@ -636,6 +636,7 @@ en:
       title: Account Info
       reset_password: Reset user password
       subscription: Subscription Id
+      customer_id: Customer Id
       subscription_status: Subscription Status
     delete:
       button: Yes, I would like to delete my account.
@@ -676,3 +677,4 @@ en:
     signin: Please sign in to access your account.
     title: Verify your email
     verification: Verification
+

@@ -77,6 +77,7 @@
                 </div>
               <% end %>
               <%= f.hidden_field :subscription_id, id: "user_subscription_id", value: @user.subscription_id %>
+              <%= f.hidden_field :customer_id, id: "user_customer_id", value: @user.customer_id %>
               <%= f.hidden_field :subscription_status, id: "user_subscription_status", value: @user.subscription_status %>
               <%= f.submit t("signup.title"), class: "btn btn-primary btn-block signin-button" %>
             </div>

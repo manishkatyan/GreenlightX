@@ -43,7 +43,6 @@ Rails.application.routes.draw do
 
   # Redirect to terms page
   match '/terms', to: 'users#terms', via: [:get, :post]
-  match '/privacy', to: 'users#privacy', via: [:get]
 
   # Admin resouces
   resources :admins, only: [:index]
