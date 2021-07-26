@@ -44,6 +44,12 @@ class UsersController < ApplicationController
     # User has passed all validations required
     @user.save
 
+
+    sendy_subscribe = Faraday.new(Rails.configuration.sendy_domain)
+    
+    sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.fullname, email:@user.email, list:"#{Rails.configuration.sendy_list}", "Content-Type" => "application/x-www-form-urlencoded")
+
+
     logger.info "Support: #{@user.email} user has been created."
 
     # Set user to pending and redirect if Approval Registration is set

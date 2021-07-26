@@ -78,7 +78,11 @@
       <% mp4_url = "#{Rails.configuration.mp4_url}#{record_id}.mp4" %>
       <% sorted_formats.each do |p| %>
         <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
-        <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
+        <% if is_mp4_available(mp4_url) %>
+          <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
+        <% else %>
+          <%= link_to "MP4 Pending", '', class: "btn btn-sm btn-primary", target: "_blank", style: "pointer-events: none;cursor: default;opacity: 0.6;" %>
+        <% end %>
         <%if transcript_file && Rails.configuration.enable_transcript == "true" %>
           <%= link_to "Transcript", transcript_file, class: "btn btn-sm btn-primary", target: "_blank" %>
         <% end %>

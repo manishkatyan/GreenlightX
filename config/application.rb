@@ -26,7 +26,7 @@ Bundler.require(*Rails.groups)
 
 module Greenlight
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
+    # Initialize defaults for originally generated Rails version.
     config.load_defaults 5.2
 
     # Settings in config/environments/* take precedence over those specified here.
@@ -202,6 +202,11 @@ module Greenlight
 
     # Enable transcript
     config.enable_transcript = ENV['ENABLE_TRANSCRIPT'] || 'true'
+
+    # sendy
+    config.sendy_api_key = ENV['SENDY_API_KEY']
+    config.sendy_domain = ENV['SENDY_DOMAIN']
+    config.sendy_list = ENV['SENDY_LIST']
 
   end
 end
