@@ -44,11 +44,11 @@ class UsersController < ApplicationController
     # User has passed all validations required
     @user.save
 
-    sendy_subscribe = Faraday.new(Rails.configuration.sendy_domain)
+    sendy_subscribe = Faraday.new(Rails.configuration.sendy_newsletter_domain)
     if @user.plan_id == ENV['STRIPE_PLAN_FREE']
-      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_free_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_free_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
     else
-      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_paid_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_paid_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
     end
 
     logger.info "Support: #{@user.email} user has been created."

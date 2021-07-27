@@ -1,6 +1,5 @@
 class SubscriptionsController < ApplicationController
-  # include Emailer
-
+  
   skip_before_action :verify_authenticity_token, only: :webhook
 
 
@@ -20,9 +19,6 @@ class SubscriptionsController < ApplicationController
     when 'payment_intent.succeeded'
       payment_reciept = event.data.object.charges.data[0].receipt_url
       payment_receipt_number = event.data.object.charges.data[0].receipt_number
-
-      # uncomment below to sent email alerts
-      # send_payment_done_email(payment_reciept)
       logger.info "Support: payment_reciept: #{payment_reciept}\n payment_receipt_number: #{payment_receipt_number}"
 
     when 'customer.subscription.trial_will_end'

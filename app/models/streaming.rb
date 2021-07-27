@@ -1,4 +1,6 @@
 class Streaming < ApplicationRecord
+    belongs_to :room
+
     validates :url, presence: false
     validates :meeting_id, presence: false
     validates :viewer_url, presence: false

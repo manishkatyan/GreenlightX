@@ -84,12 +84,6 @@ class UserMailer < ApplicationMailer
     mail to: user.email, subject: t('mailer.user.approve.subject')
   end
 
-  # def payment_done(payment_reciept, setting)
-  #   @payment_reciept = payment_reciept
-  #   @image = logo_image
-  #   mail to: "email@example.com", subject: t('mailer.user.payment.done')
-  # end
-
   def approval_user_signup(user, url, admin_emails, settings)
     @settings = settings
     @user = user

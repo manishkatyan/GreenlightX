@@ -94,18 +94,6 @@ module Emailer
     end
   end
 
-  # #Send payment_done email 
-  # def send_payment_done_email(payment_reciept)
-  #   begin
-  #     return unless Rails.configuration.enable_email_verification
-  #     
-  #     UserMailer.payment_done(payment_reciept, @settings).deliver_now
-  #    
-  #   rescue => e
-  #     logger.error "Support: Error in email delivery: #{e}"
-  #   end
-  # end
-
   def send_approval_user_signup_email(user)
     begin
       return unless Rails.configuration.enable_email_verification

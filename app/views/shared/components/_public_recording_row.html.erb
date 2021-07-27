@@ -58,7 +58,6 @@
   <% if public_mp4_recording(recording[:meetingID])%>
     <% sorted_formats = recording[:playbacks].sort_by! {|p| p[:type]} %>
     <% record_id = recording[:recordID].strip()%>
-    <% transcript_file = transcript_file_name(record_id) %>
     <% mp4_url = "#{Rails.configuration.mp4_url}#{record_id}.mp4" %>
     <% p = recording[:playbacks].find do |p| p.key?(:length) end %>
     <% sorted_formats.each do |p| %>
@@ -69,20 +68,14 @@
         <% else %>
           <%= link_to "MP4 Pending", '', class: "btn btn-sm btn-primary", target: "_blank", style: "pointer-events: none;cursor: default;opacity: 0.6;" %>
         <% end %>
-      <%if transcript_file && Rails.configuration.enable_transcript == "true"%>
-        <%= link_to "Transcript", transcript_file, class: "btn btn-sm btn-primary", target: "_blank" %>
-      <% end %>
     <% end %>
 
   <% else %>
       <% sorted_formats = recording[:playbacks].sort_by! { |p| p[:type] } %>
       <% record_id = recording[:recordID].strip()%>
-      <% transcript_file = transcript_file_name(record_id) %>
+        
       <% sorted_formats.each do |p| %>
         <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
-          <%if transcript_file && Rails.configuration.enable_transcript == "true"%>
-              <%= link_to "Transcript", transcript_file, class: "btn btn-sm btn-primary", target: "_blank" %>
-          <% end %>
         <% end %>
   <% end %>
 
