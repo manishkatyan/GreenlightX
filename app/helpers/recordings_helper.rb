@@ -42,6 +42,15 @@ module RecordingsHelper
     Rails.configuration.recording_thumbnails
   end
 
+  # chek if mp4 available
+  def is_mp4_available(mp4_url)
+    begin
+      Faraday.head(mp4_url).status == 200 ? true : false
+    rescue => exception
+      false
+    end
+  end
+
   # check whether to show mp4 recording for public recordings
   def public_mp4_recording(bbb_id)
     begin

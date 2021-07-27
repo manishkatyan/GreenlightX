@@ -9,3 +9,4 @@ Rails.configuration.terms = if File.exist?(terms)
 else
   false
 end
+

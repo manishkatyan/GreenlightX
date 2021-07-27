@@ -49,6 +49,12 @@
           </select>
       </div>
     </div>
+        <div class="row">
+      <div class="col-sm-6 mb-4">
+       <%= f.label :customer_id, t("settings.account.customer_id"), class: "form-label mt-5" %>
+       <%= f.text_field :customer_id, class: "form-control #{form_is_invalid?(@user, :customer_id)}", placeholder: t("settings.account.customer_id") %>
+      </div>
+      </div>
 
     <div class="row">
       <div class="col-sm-6 mb-4">

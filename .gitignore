@@ -45,6 +45,7 @@ env
 .vscode/**
 
 config/terms.md
+config/privacy.md
 coverage*
 
 /atom-sftp-sync.json

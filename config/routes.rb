@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   post '/streaming', to: 'streaming#create'
 
   get '/subscriptions/show', to: 'subscriptions#show'
-  get '/subscriptions/create', to: 'subscriptions#create'
+  get '/subscriptions/create/:plan_id', to: 'subscriptions#create'
   get '/subscriptions/success', to: 'subscriptions#success'
   get '/subscriptions/cancel', to: 'subscriptions#cancel'
   post '/subscriptions/webhook', to: 'subscriptions#webhook'
@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   # Redirect to terms page
   match '/terms', to: 'users#terms', via: [:get, :post]
+  match '/privacy', to: 'users#privacy', via: [:get]
 
   # Admin resouces
   resources :admins, only: [:index]

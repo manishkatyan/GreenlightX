@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_034224) do
+ActiveRecord::Schema.define(version: 2021_07_27_083834) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(version: 2021_07_01_034224) do
     t.string "access_code"
     t.boolean "deleted", default: false, null: false
     t.string "moderator_access_code"
-    t.string "rtmpurl"
     t.index ["bbb_id"], name: "index_rooms_on_bbb_id"
     t.index ["deleted"], name: "index_rooms_on_deleted"
     t.index ["last_session"], name: "index_rooms_on_last_session"
@@ -131,6 +130,8 @@ ActiveRecord::Schema.define(version: 2021_07_01_034224) do
     t.string "viewer_url"
     t.string "streaming_key"
     t.string "show_presentation"
+    t.string "vimeo_player_url"
+    t.string "vimeo_chat_url"
   end
 
   create_table "users", force: :cascade do |t|
@@ -157,9 +158,11 @@ ActiveRecord::Schema.define(version: 2021_07_01_034224) do
     t.datetime "last_login"
     t.string "subscription_id"
     t.string "subscription_status"
-    t.boolean "streaming"
+    t.boolean "streaming", default: true
     t.boolean "mp4", default: true
     t.boolean "twilio", default: true
+    t.string "customer_id"
+    t.string "plan_id"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"

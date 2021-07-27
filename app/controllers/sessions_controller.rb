@@ -49,30 +49,42 @@ class SessionsController < ApplicationController
 
   # GET /signup
   def new
-    # Check if the user needs to be invited
-    if invite_registration
-      redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]
-
-      session[:invite_token] = params[:invite_token]
+    # Prevent users from directly accesing /signup 
+    if  request.referer && request.referer.include?(subscriptions_success_path) || invite_registration
+      # Check if the user needs to be invited
+      if invite_registration
+        redirect_to root_path, flash: { alert: I18n.t("registration.invite.no_invite") } unless params[:invite_token]
+  
+        session[:invite_token] = params[:invite_token]
+      end
+  
+      check_if_twitter_account(true)
+  
+      @user = User.new
+  
+      if params[:email] 
+        @user.email = params[:email]
+      end
+  
+      if params[:name] 
+        @user.name = params[:name]
+      end
+  
+      if params[:subscription_id] && params[:customer_id]
+        @user.subscription_id = params[:subscription_id]
+        @user.customer_id = params[:customer_id]
+        @user.plan_id = params[:plan_id]
+        @user.subscription_status = "Active"
+      end
+    else
+      redirect_to root_path
     end
+  end
 
-    check_if_twitter_account(true)
-
-    @user = User.new
-
-    if params[:email] 
-      @user.email = params[:email]
-    end
-
-    if params[:name] 
-      @user.name = params[:name]
-    end
-
-    if params[:subscription_id]
-      @user.subscription_id = params[:subscription_id]
-      @user.subscription_status = "Active"
-    end
-
+  def check_subscription(subscription_id)
+    Stripe.api_key = Rails.configuration.stripe_secret_key
+    status = Stripe::Subscription.retrieve(subscription_id).status
+    status == "trialing" ?  "active" : status
   end
 
   # POST /users/login
@@ -113,11 +125,11 @@ class SessionsController < ApplicationController
     end
     
     # if subscription_status is not Active then dont allow the user to login, allow logins for super_admin, admin for all cases
-    if user.subscription_status == "Active" || is_super_admin || admin
-
+    user.subscription_status =(admin || is_super_admin) ? "Active" : check_subscription(user.subscription_id).capitalize
+    if user.subscription_status == "Active"
       login(user)
     else
-      return redirect_to(signin_path, alert: "Your account is #{user.subscription_status}, Contact Administrator for more details")
+      return redirect_to(signin_path, alert: "Your account status #{user.subscription_status}, Contact Administrator for more details")
     end
   end
 

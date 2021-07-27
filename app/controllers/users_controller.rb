@@ -44,6 +44,13 @@ class UsersController < ApplicationController
     # User has passed all validations required
     @user.save
 
+    sendy_subscribe = Faraday.new(Rails.configuration.sendy_newsletter_domain)
+    if @user.plan_id == Rails.configuration.stripe_plan_free
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_free_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+    else
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_paid_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+    end
+
     logger.info "Support: #{@user.email} user has been created."
 
     # Set user to pending and redirect if Approval Registration is set
@@ -92,6 +99,10 @@ class UsersController < ApplicationController
       path = admins_path
     end
 
+    if params[:user][:subscription_status] == "Cancelled" && current_user.admin_of?(@user, "can_manage_users")
+      subscription_cancel(params[:user][:subscription_id])
+    end
+
     redirect_path = current_user.admin_of?(@user, "can_manage_users") ? path : edit_user_path(@user)
 
     unless can_edit_user?(@user, current_user)
@@ -111,7 +122,21 @@ class UsersController < ApplicationController
       end
     end
 
+
     render :edit
+  end
+
+  # calcel user subscription
+  def subscription_cancel(subscription_id)
+    Stripe.api_key= Rails.configuration.stripe_secret_key
+    begin
+      Stripe::Subscription.delete(subscription_id)
+      logger.error "#{subscription_id} has been canceled"
+      flash[:alert] = "#{subscription_id} has been canceled"
+    rescue => exception
+      flash[:alert] = "Couldn't cancel the subscription for: #{subscription_id}, Please cancel it through stripe dashboard"
+      logger.error "#{exception}\n Couldn't cancel the subscription for: #{subscription_id}, Please cancel it through stripe dashboard"
+    end
   end
 
   # POST /u/:user_uid/change_password
@@ -200,7 +225,7 @@ class UsersController < ApplicationController
       login(current_user)
     end
   end
-
+  
   # GET /shared_access_list
   def shared_access_list
     # Don't allow searchs unless atleast 3 characters are passed
@@ -236,7 +261,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :image, :password, :password_confirmation,
-      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :streaming, :mp4, :twilio)
+      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :customer_id, :streaming, :mp4, :twilio, :plan_id)
   end
 
   def send_registration_email

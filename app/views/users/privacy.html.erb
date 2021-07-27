@@ -12,15 +12,24 @@
 # You should have received a copy of the GNU Lesser General Public License along
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 %>
-<div class="container pt-6">
-  <%= render "shared/components/subtitle", subtitle: t("settings.title"), search: false %>
 
-  <div class="row">
-    <div class="col-lg-3 mb-4">
-      <%= render "users/components/menu_buttons" %>
-    </div>
-    <div class="col-lg-9">
-      <%= render "users/components/setting_view", setting_id: "delete", setting_title: "Permanently Cancel your Account" %>
+<div class="container pt-5">
+  <div class="col-md-8 offset-2">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">TokBird Privacy Statement</h3>
+      </div>
+      <div class="card-body">
+          <div class="terms">
+            <%= markdown(Rails.configuration.privacy) %>
+          </div>
+          <% if Rails.configuration.terms && current_user && !current_user.accepted_terms %>
+            <div class="btn-list text-right pt-8">
+              <%= button_to t("terms.accept_existing"), terms_path, params: { accept: true }, class: "btn btn-primary btn-space", "data-disable": "" %>
+            </div>
+          <% end %>
+        </form>
+      </div>
     </div>
   </div>
 </div>

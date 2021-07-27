@@ -17,11 +17,6 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 module RoomsHelper
-  # Helper to generate the path to a Google Calendar event creation
-  # It will have its title set as the room name, and the location as the URL to the room
-  def google_calendar_path
-    "http://calendar.google.com/calendar/r/eventedit?text=#{@room.name}&location=#{request.base_url + request.fullpath}"
-  end
 
   def room_authentication_required
     @settings.get_value("Room Authentication") == "true" &&
@@ -65,5 +60,38 @@ module RoomsHelper
     total = user.rooms.length
     total += user.shared_rooms.length if shared_access_allowed
     total
+  end
+
+  # return current user can create room?
+  def current_user_can_create_user
+    begin
+      current_user.role.get_permission("can_create_rooms")
+    rescue => exception
+      false
+    end
+  end
+
+    # Helper to generate the path to a Google Calendar event creation
+  # It will have its title set as the room name, and the location as the URL to the room
+  def google_calendar_path
+    # current_list = @room.shared_users.pluck(:id)
+    # Get the list of user who have shared room acccess
+    guest_list = (User.where(id: (@room.shared_users.pluck(:id)))).pluck(:email)
+    guest_list_url = ""
+    urll = guest_list.each do |email|
+      guest_list_url  = guest_list_url + "&add=" + email
+    end
+  return ("http://calendar.google.com/calendar/r/eventedit?text=#{@room.name}&location=#{request.base_url + request.fullpath}#{guest_list_url}")
+  end
+
+  def microsoft_calendar_path
+    # current_list = @room.shared_users.pluck(:id)
+    # Get the list of user who have shared room acccess
+    guest_list = (User.where(id: (@room.shared_users.pluck(:id)))).pluck(:email)
+    guest_list_url = ""
+    urll = guest_list.each do |email|
+      guest_list_url  = guest_list_url + "," + email
+    end
+    return ("https://outlook.live.com/owa/?path=/calendar/action/compose&rru=addevent&subject=#{@room.name}&body=#{request.base_url + request.fullpath}&location=#{request.base_url + request.fullpath}&to=#{guest_list_url}")
   end
 end

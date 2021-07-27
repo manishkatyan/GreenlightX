@@ -26,7 +26,7 @@ Bundler.require(*Rails.groups)
 
 module Greenlight
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
+    # Initialize defaults for originally generated Rails version.
     config.load_defaults 5.2
 
     # Settings in config/environments/* take precedence over those specified here.
@@ -199,6 +199,27 @@ module Greenlight
     
     # Twilio
     config.twilio_number = ENV['TWILIO_NUMBER'].present? ? ENV['TWILIO_NUMBER'] : false
+
+    # sendy
+    config.sendy_newsletter_api_key = ENV['SENDY_NEWSLETTER_API_KEY']
+    config.sendy_newsletter_domain = ENV['SENDY_NEWSLETTER_DOMAIN']
+    config.sendy_newsletter_free_email_list = ENV['SENDY_NEWSLETTER_FREE_EMAIL_LIST']
+    config.sendy_newsletter_paid_email_list = ENV['SENDY_NEWSLETTER_PAID_EMAIL_LIST']
+
+    # stripe
+    config.stripe_secret_key = ENV['STRIPE_SECRET_KEY']
+    config.stripe_publishable_key = ENV['STRIPE_PUBLISHABLE_KEY']
+    config.stripe_subscription_return_url= ENV['STRIPE_SUBSCRIPTION_RETURN_URL']
+    config.stripe_subscription_success_url= ENV['STRIPE_SUBSCRIPTION_SUCCESS_URL']
+    config.stripe_subscription_cancel_url= ENV['STRIPE_SUBSCRIPTION_CANCEL_URL']
+    config.stripe_plan_free = ENV['STRIPE_PLAN_FREE']
+    config.stripe_plan_basic = ENV['STRIPE_PLAN_BASIC']
+    config.stripe_plan_pro = ENV['STRIPE_PLAN_PRO']
+    config.stripe_plan_premiere = ENV['STRIPE_PLAN_PREMIERE']
+
+    # Show/hide "Add to Google Calendar" button in the room page
+    config.enable_google_calendar_button = parse_bool(ENV['ENABLE_GOOGLE_CALENDAR_BUTTON'])
+    config.enable_microsoft_calendar_button = parse_bool(ENV['ENABLE_MICROSOFT_CALENDAR_BUTTON'])
 
   end
 end

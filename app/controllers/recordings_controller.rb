@@ -21,7 +21,7 @@ class RecordingsController < ApplicationController
   before_action :verify_room_ownership
 
   META_LISTED = "gl-listed"
-
+  
   # POST /:meetingID/:record_id
   def update
     meta = {

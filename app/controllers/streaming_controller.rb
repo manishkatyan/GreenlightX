@@ -86,12 +86,14 @@ class StreamingController < ApplicationController
         "streaming_key" => streaming_key,
         "running" => running,
         "show_presentation" => show_presentation,
-        "streaming_enabled" => @user.streaming
+        "streaming_enabled" => @user.streaming,
+        "vimeo_player_url" => @streaming.vimeo_player_url,
+        "vimeo_chat_url" => @streaming.vimeo_chat_url,
       }
 
       update_status_file(status_file_update_data, @user.uid)
       logger.info "Streaming started at pid: #{pid}"
-      flash.now[:success] = ("Streaming started succussfully")
+      flash.now[:success] = ("Streaming started successfully")
 
     elsif (params[:commit] == "Stop") && (status_file_update_data["running"])
       begin
@@ -99,14 +101,33 @@ class StreamingController < ApplicationController
         logger.info "Streaming stopped; killed streaming processed, pid: #{pid}"
         pid = 0
         running = false
+        rtmp_url= ''
+        streaming_key= ''
+        viewer_url= ''
+        vimeo_player_url = ''
+        vimeo_chat_url = ''
+        show_presentation= "false" 
+        
       rescue => exception
         pid = 0
         running = false
+        rtmp_url= ''
+        streaming_key= ''
+        viewer_url= ''
+        vimeo_player_url = ''
+        vimeo_chat_url = ''
+        show_presentation= "false" 
       end
       status_file_update_data["running"] = running
       status_file_update_data["pid"] = pid
+      status_file_update_data["rtmp_url"] = rtmp_url
+      status_file_update_data["streaming_key"] = streaming_key
+      status_file_update_data["viewer_url"] = viewer_url
+      status_file_update_data["vimeo_player_url"] = vimeo_player_url
+      status_file_update_data["vimeo_chat_url"] = vimeo_chat_url
+      status_file_update_data["show_presentation"] = show_presentation
       update_status_file(status_file_update_data, @user.uid)
-      flash.now[:success] = ("Streaming stopped succussfully")
+      flash.now[:success] = ("Streaming stopped successfully")
     end
   end
   def streaming_data
