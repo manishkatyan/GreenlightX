@@ -16,7 +16,7 @@ session = Stripe::Checkout::Session.create(
 
 <script>
 jQuery(document).ready(function ($) {
-    var stripe = Stripe("<%= Rails.confuguration.stripe_publishable_key %>");
+    var stripe = Stripe("<%= Rails.configuration.stripe_publishable_key %>");
 
     stripe.redirectToCheckout({
     sessionId: "<%= session.id %>"
