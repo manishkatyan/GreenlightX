@@ -73,6 +73,7 @@ class SessionsController < ApplicationController
       if params[:subscription_id] && params[:customer_id]
         @user.subscription_id = params[:subscription_id]
         @user.customer_id = params[:customer_id]
+        @user.plan_id = params[:plan_id]
         @user.subscription_status = "Active"
       end
     else

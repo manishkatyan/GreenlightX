@@ -47,6 +47,8 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, confirmation: true, if: :greenlight_account?, on: :create
 
   validates :subscription_id, length: { maximum: 256 }, allow_blank: true
+  validates :customer_id, length: { maximum: 256 }, allow_blank: true
+  validates :plan_id, length: { maximum: 256 }, allow_blank: true
   validates :subscription_status, length: { maximum: 256 }, allow_blank: true
 
   # Bypass validation if omniauth

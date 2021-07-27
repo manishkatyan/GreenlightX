@@ -222,7 +222,8 @@ en:
         username: Username
         valid: Valid
       title: Manage Users
-  add_to_google_calendar: "Add to Google Calendar"
+  add_to_google_calendar: "Google Calender"
+  add_to_microsift_calendar: "Microsoft Calender"
   bigbluebutton: TokBird
   bigbluebutton_exception: Oops, there was an error when starting the meeting!
   cancel: Cancel
@@ -353,6 +354,13 @@ en:
   login_title: Sign in to your account
   mailer:
     user:
+      trial:
+        end: Cutomer Trial will end soon.
+      subscribtion:
+        end: Cutomer Subscription will end soon
+      payment:
+        done: Customer has made a payment
+        payment_reciept: Payment recept link %{payment_reciept}.
       approve:
         info: Your account has been approved.
         signin: To access your personal rooms, click the button below and sign in.

@@ -10,6 +10,7 @@ Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 session = Stripe::Checkout::Session.retrieve(params[:session_id])
 customer = Stripe::Customer.retrieve(session.customer)
 subscription = Stripe::Subscription.retrieve(session.subscription)
+plan = subscription.items.data[0].plan
 %>
 
 <div class="container mt-8 mb-6 text-center">
@@ -20,6 +21,6 @@ subscription = Stripe::Subscription.retrieve(session.subscription)
 
 <br>
 <br>
-<%= link_to "Continue to Create an Account", signup_path(:email => customer.email, :name => customer.name, :subscription_id => subscription.id, :customer_id => customer.id), class: "btn btn-outline-primary mx-2 sign-up-button" %>
+<%= link_to "Continue to Create an Account", signup_path(:email => customer.email, :name => customer.name, :subscription_id => subscription.id, :plan_id => plan.id, :customer_id => customer.id), class: "btn btn-outline-primary mx-2 sign-up-button" %>
 
 </div>

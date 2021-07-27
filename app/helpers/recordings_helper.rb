@@ -57,8 +57,8 @@ module RecordingsHelper
   # chek if mp4 available
   def is_mp4_available(mp4_url)
     begin
-      RestClient.head(mp4_url).code == 200 ? true : false
-    rescue RestClient::Exception => error
+      Faraday.head(mp4_url).status == 200 ? true : false
+    rescue => exception
       false
     end
   end

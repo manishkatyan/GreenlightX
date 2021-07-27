@@ -206,7 +206,12 @@ module Greenlight
     # sendy
     config.sendy_api_key = ENV['SENDY_API_KEY']
     config.sendy_domain = ENV['SENDY_DOMAIN']
-    config.sendy_list = ENV['SENDY_LIST']
+    config.sendy_free_email_list = ENV['SENDY_FREE_EMAIL_LIST']
+    config.sendy_paid_email_list = ENV['SENDY_PAID_EMAIL_LIST']
+
+    # Show/hide "Add to Google Calendar" button in the room page
+    config.enable_google_calendar_button = parse_bool(ENV['ENABLE_GOOGLE_CALENDAR_BUTTON'])
+    config.enable_microsoft_calendar_button = parse_bool(ENV['ENABLE_MICROSOFT_CALENDAR_BUTTON'])
 
   end
 end

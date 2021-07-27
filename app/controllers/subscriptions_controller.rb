@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  # include Emailer
+
   skip_before_action :verify_authenticity_token, only: :webhook
 
 
@@ -15,24 +17,30 @@ class SubscriptionsController < ApplicationController
     # Handle the event
     case event.type
 
+    when 'payment_intent.succeeded'
+      payment_reciept = event.data.object.charges.data[0].receipt_url
+      payment_receipt_number = event.data.object.charges.data[0].receipt_number
+
+      # uncomment below to sent email alerts
+      # send_payment_done_email(payment_reciept)
+      logger.info "Support: payment_reciept: #{payment_reciept}\n payment_receipt_number: #{payment_receipt_number}"
+
     when 'customer.subscription.trial_will_end'
-      logger.info "Subscription id : #{event.data.object.customer}"
       subscription_id = event.data.object.id
       begin
-        logger.info "trial ends"
+        logger.info "Support: Customer Trial will end soon Subscription id : #{event.data.object.customer}"
       rescue => exception
-        logger.info "Couldn't find the user with subscription_id: #{subscription_id}"
+        logger.info "Support: Couldn't find the user with subscription_id: #{subscription_id}"
       end
 
     when 'invoice.upcoming'
       begin
         user = User.find_by(customer_id: event.data.object.customer)
-        logger.info "#{event.data.object.customer} upcaming event"
+        logger.info "Support: Upcoming invoice for #{user.name},customer id: #{event.data.object.customer}"
       rescue => exception
         logger.info exception
       end
     end
-    
   end
 
   def show

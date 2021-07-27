@@ -44,11 +44,12 @@ class UsersController < ApplicationController
     # User has passed all validations required
     @user.save
 
-
     sendy_subscribe = Faraday.new(Rails.configuration.sendy_domain)
-    
-    sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.fullname, email:@user.email, list:"#{Rails.configuration.sendy_list}", "Content-Type" => "application/x-www-form-urlencoded")
-
+    if @user.plan_id == ENV['STRIPE_PLAN_FREE']
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_free_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+    else
+      sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_paid_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
+    end
 
     logger.info "Support: #{@user.email} user has been created."
 
@@ -260,7 +261,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :image, :password, :password_confirmation,
-      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :customer_id, :streaming, :mp4, :twilio)
+      :new_password, :provider, :accepted_terms, :language, :subscription_id, :subscription_status, :customer_id, :streaming, :mp4, :twilio, :plan_id)
   end
 
   def send_registration_email
