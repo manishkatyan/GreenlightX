@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
   end
 
   def check_subscription(subscription_id)
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe.api_key = Rails.configuration.stripe_secret_key
     status = Stripe::Subscription.retrieve(subscription_id).status
     status == "trialing" ?  "active" : status
   end

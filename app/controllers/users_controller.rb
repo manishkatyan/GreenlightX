@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     @user.save
 
     sendy_subscribe = Faraday.new(Rails.configuration.sendy_newsletter_domain)
-    if @user.plan_id == ENV['STRIPE_PLAN_FREE']
+    if @user.plan_id == Rails.configuration.stripe_plan_free
       sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_free_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
     else
       sendy_subscribe.post('/subscribe',api_key:"#{Rails.configuration.sendy_newsletter_api_key}", name:@user.name, email:@user.email, list:"#{Rails.configuration.sendy_newsletter_paid_email_list}", "Content-Type" => "application/x-www-form-urlencoded")
@@ -128,7 +128,7 @@ class UsersController < ApplicationController
 
   # calcel user subscription
   def subscription_cancel(subscription_id)
-    Stripe.api_key=ENV['STRIPE_SECRET_KEY']
+    Stripe.api_key= Rails.configuration.stripe_secret_key
     begin
       Stripe::Subscription.delete(subscription_id)
       logger.error "#{subscription_id} has been canceled"

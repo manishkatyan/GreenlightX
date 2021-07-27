@@ -1,9 +1,9 @@
 <%
-Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+Stripe.api_key = Rails.configuration.stripe_secret_key
 
 session = Stripe::Checkout::Session.create(
-    success_url: ENV['STRIPE_SUBSCRIPTION_SUCCESS_URL'] + '?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: ENV['STRIPE_SUBSCRIPTION_CANCEL_URL'],
+    success_url: Rails.configuration.stripe_subscription_success_url + '?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url:Rails.configuration.stripe_subscription_cancel_url,
     payment_method_types: ['card'],
     mode: 'subscription',
     line_items: [{
@@ -16,7 +16,7 @@ session = Stripe::Checkout::Session.create(
 
 <script>
 jQuery(document).ready(function ($) {
-    var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
+    var stripe = Stripe("<%= Rails.confuguration.stripe_publishable_key %>");
 
     stripe.redirectToCheckout({
     sessionId: "<%= session.id %>"

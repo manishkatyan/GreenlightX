@@ -6,7 +6,7 @@ else
     redirect_to :root
 end
 
-Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+Stripe.api_key = Rails.configuration.stripe_secret_key
 session = Stripe::Checkout::Session.retrieve(params[:session_id])
 customer = Stripe::Customer.retrieve(session.customer)
 subscription = Stripe::Subscription.retrieve(session.subscription)

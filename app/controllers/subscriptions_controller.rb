@@ -40,11 +40,11 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+    Stripe.api_key = Rails.configuration.stripe_secret_key
 
     portal_session = Stripe::BillingPortal::Session.create(
       customer: current_user.customer_id,
-      return_url: ENV['STRIPE_SUBSCRIPTION_RETURN_URL']
+      return_url: Rails.configuration.stripe_subscription_return_url
     )
 
     redirect_to portal_session.url 

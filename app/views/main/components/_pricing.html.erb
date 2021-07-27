@@ -1,7 +1,7 @@
-<% plan1 = "/subscriptions/create/" + ENV['STRIPE_PLAN_1']%>
-<% plan2 = "/subscriptions/create/" + ENV['STRIPE_PLAN_2']%>
-<% plan3 = "/subscriptions/create/" + ENV['STRIPE_PLAN_3']%>
-<% plan_free = "/subscriptions/create/" + ENV['STRIPE_PLAN_FREE']%>
+<% plan_free = "/subscriptions/create/" + Rails.configuration.stripe_plan_free %>
+<% plan_basic = "/subscriptions/create/" + Rails.configuration.stripe_plan_basic %>
+<% plan_pro = "/subscriptions/create/" + Rails.configuration.stripe_plan_pro %>
+<% plan_premiere = "/subscriptions/create/" + Rails.configuration.stripe_plan_premiere %>
 
 <div class="container mt-8 mb-6 text-center">
 <h2 class="mb-6">Subscription Plans</h2>
@@ -58,7 +58,7 @@
         <li> &#10003; Email Support</li>
         <li> &#10003; Help Center Access</li><br><br>
       </ul>
-      <a href= "<%=plan1%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
+      <a href= "<%=plan_basic%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
     </div>
   </div>
   <div class="card mb-4 shadow-sm">
@@ -87,7 +87,7 @@
         <li> &#10003; Chat Support</li>
         <li> &#10003; Help Center Access</li>
       </ul>
-      <a href= "<%=plan2%>"><button class="btn btn-lg btn-block btn-primary" >Subscribe</button></a>
+      <a href= "<%=plan_pro%>"><button class="btn btn-lg btn-block btn-primary" >Subscribe</button></a>
     </div>
   </div>
   <div class="card mb-4 shadow-sm">
@@ -116,7 +116,7 @@
         <li> &#10003; Chat Support</li>
         <li> &#10003; Help Center Access</li>
       </ul>
-      <a href= "<%=plan3%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
+      <a href= "<%=plan_premiere%>"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe</button></a>
     </div>
   </div>
 </div>
