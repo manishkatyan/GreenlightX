@@ -82,4 +82,3 @@ end
 gem 'stripe'
 # this gem is used to make http post request
 gem "faraday"
-gem "rest-client"
