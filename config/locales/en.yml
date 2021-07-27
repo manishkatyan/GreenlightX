@@ -166,13 +166,13 @@ en:
     room_configuration:
       title: Room Configuration
       mute:
-        info: Automatically mutes the user when they join the BigBlueButton meeting
+        info: Automatically mutes the user when they join the Tokbird meeting
       require_moderator:
-        info: Prompts the moderator of the BigBlueButton meeting when a user tries to join. If the user is approved, they will be able to join the meeting.
+        info: Prompts the moderator of the Tokbird meeting when a user tries to join. If the user is approved, they will be able to join the meeting.
       allow_any:
         info: Allows any user to start the meeting at any time. By default, only the room owner can start the meeting.
       all_moderator:
-        info: Gives all users moderator privileges in BigBlueButton when they join the meeting.
+        info: Gives all users moderator privileges in Tokbird when they join the meeting.
       recordings:
         info: Allows room owners to specify whether they want the option to record a room or not. If enabled, the moderator must still click the "Record" button once the meeting has started.
       moderator_codes:
@@ -260,7 +260,7 @@ en:
   errors:
     bigbluebutton:
       help: Please make sure the proper steps have been taken. <a href="%{doc_link}">Learn more</a>
-      message: Invalid BigBlueButton Endpoint and Secret
+      message: Invalid Tokbird Endpoint and Secret
       title: Server Error
     internal:
       message: Looks like something went wrong on our end.
@@ -388,7 +388,7 @@ en:
           admins_link: Visit the Organization Page
           subject: New Greenlight User Sign Up
           username: The user signed up with the name %{name} and the email %{email}.
-        subject: Invitation to join BigBlueButton
+        subject: Invitation to join Tokbird
         username: Your username is %{email}.
       password_reset:
         title: "Password reset"
@@ -590,7 +590,7 @@ en:
     enter_the_moderator_access_code: Enter the room's moderator code!
     optional_moderator_access_code: "Optional Moderator Code:"
     invalid_provider: You have entered an invalid url. Please check the url and try again.
-    invitation_description: You have been invited to join %{name} using BigBlueButton. To join, click the link above and enter your name.
+    invitation_description: You have been invited to join %{name} using Tokbird. To join, click the link above and enter your name.
     invited: You have been invited to join
     recording_present: I acknowledge that this session is going to be recorded. This may include my voice and video if enabled.
     invite_participants: Invite Participants
