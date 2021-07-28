@@ -539,9 +539,11 @@ en:
     format:
       notes: Notes
       podcast: Podcast
-      presentation: Presentation
+      presentation: View Recording
       statistics: Statistics
       video: Video
+      mp4_done: Download Recording(mp4)
+      mp4_pending: MP4 Pending
   registration:
     approval:
       fail: Your account has not been approved yet. If multiples days have passed since you signed up, please contact your administrator.
@@ -685,4 +687,10 @@ en:
     signin: Please sign in to access your account.
     title: Verify your email
     verification: Verification
+
+  streaming:
+    start_meeting: You must start a meeting before you can stream it.
+    create_meeting: Start/Create Meeting
+    create_meeting_button_info: Pressing button will take you back to the Home page.
+
 

@@ -63,9 +63,9 @@
         <% mp4_url = "#{Rails.configuration.mp4_url}#{record_id}.mp4" %>
         <%= link_to t("recording.format.#{p[:type]}"), p[:url], class: "btn btn-sm btn-primary", target: "_blank" %>
         <% if is_mp4_available(mp4_url) %>
-          <%= link_to "MP4 Recording", mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
+          <%= link_to t("recording.format.mp4_done"), mp4_url, class: "btn btn-sm btn-primary", target: "_blank" %>
         <% else %>
-          <%= link_to "MP4 Pending", '', class: "btn btn-sm btn-primary", target: "_blank", style: "pointer-events: none;cursor: default;opacity: 0.6;" %>
+          <%= link_to t("recording.format.mp4_pending"), '', class: "btn btn-sm btn-primary", target: "_blank", style: "pointer-events: none;cursor: default;opacity: 0.6;" %>
         <% end %>
  
       <% end %>
