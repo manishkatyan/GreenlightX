@@ -25,7 +25,6 @@
                     <% end %>
                     </select>
                 </div>
-              <% end %>
                 <div class="form-group">
                     <%= f.label :url, "RTMP URL", class: "form-label" %>
                     <%= f.text_field :url, class: "form-control #{form_is_invalid?(@streaming, :url)}", placeholder: "RTMP URL from YouTube, Facebook or others", autofocus: "", required: "", readonly: streaming %>
@@ -59,11 +58,44 @@
                  </label>
                   <p style="font-size:0.9em">Enable toggle to display presentation pod (i.e.,PPTx/PDF) along with webcam videos.<br>Disable the toggle to display only the webcam videos during live stream.</p>
                 </div>
-                   <% if !streaming %>
-                  <div class="form-group">
+                <div class="form-group">
                     <%= f.submit "Start", class: "btn btn-outline-primary mx-2 sign-in-button", :disabled => meeting_running ? false : true %>
+                <% end %>
                     
-                <% else %>
+                <% if streaming %>
+                <div class="form-group">
+                    <%= f.label :url, "RTMP URL", class: "form-label" %>
+                    <%= f.text_field :url, class: "form-control #{form_is_invalid?(@streaming, :url)}", placeholder: "RTMP URL from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["url"], readonly: streaming %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:url).first %></div>
+                </div>
+                <div class="form-group">
+                    <%= f.label :streaming_key, "Streaming KEY", class: "form-label" %>
+                    <%= f.text_field :streaming_key, class: "form-control #{form_is_invalid?(@streaming, :streaming_key)}", placeholder: "Streaming KEY from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["streaming_key"], readonly: streaming %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:streaming_key).first %></div>
+                </div>
+                <div class="form-group">
+                    <%= f.label :viewer_url, "Viewer URL", class: "form-label" %>
+                    <%= f.text_field :viewer_url, class: "form-control #{form_is_invalid?(@streaming, :viewer_url)}", placeholder: "URL to view Live streaming", autofocus: "", required: "", value: stream_data["viewer_url"], readonly: streaming %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:viewer_url).first %></div>
+                </div>
+                <div class="form-group">
+                    <%= f.label :vimeo_player_url, "Vimeo player URL", class: "form-label" %>
+                    <%= f.text_field :vimeo_player_url, class: "form-control #{form_is_invalid?(@streaming, :vimeo_player_url)}", placeholder: "Vimeo player URL", autofocus: "", required: "", value: stream_data["vimeo_player_url"], readonly: streaming %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:vimeo_player_url).first %></div>
+                </div>
+                <div class="form-group">
+                    <%= f.label :vimeo_chat_url, "Vimeo Chat URL", class: "form-label" %>
+                    <%= f.text_field :vimeo_chat_url, class: "form-control #{form_is_invalid?(@streaming, :vimeo_chat_url)}", placeholder: "Vimeo Chat URL", autofocus: "", required: "", value: stream_data["vimeo_player_url"], readonly: streaming %>
+                    <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:vimeo_chat_url).first %></div>
+                </div>
+                <div class="form-group">
+                 <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
+                <span class="ml-0 custom-switch-description" style="font-weight: 550;color:#555">Show presentation</span>
+                <%= f.check_box :show_presentation, checked: checked, class: "custom-switch-input"%>
+                <span class="custom-switch-indicator float-right"></span>
+                 </label>
+                  <p style="font-size:0.9em">Enable toggle to display presentation pod (i.e.,PPTx/PDF) along with webcam videos.<br>Disable the toggle to display only the webcam videos during live stream.</p>
+                </div>
                     <%= f.hidden_field :meeting_id, id: "streaming_meeting_id_hidden", value: stream_data["meeting_id"] %>
                     <%= f.submit "Stop", class: "btn btn-danger mx-2 sign-in-button", :disabled => !disabled %>
                 <% end %>
