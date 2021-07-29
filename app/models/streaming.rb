@@ -1,5 +1,4 @@
 class Streaming < ApplicationRecord
-
     validates :pid, presence: true
     validates :meeting_name, presence: true
     validates :url, presence: false

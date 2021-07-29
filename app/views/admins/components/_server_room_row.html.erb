@@ -51,10 +51,10 @@
     <% end %>
   </td>
   <td class="text-left">
-    <% if is_streaming(room.id) %>
-      Streaming
+    <% if is_streaming(room.bbb_id) %>
+      <%= t("administrator.rooms.table.streaming")%>
     <% else %>
-      Not
+      <%= t("administrator.rooms.table.not_streaming")%>
     <% end %>
   </td>
   <td class="text-center">

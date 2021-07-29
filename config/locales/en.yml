@@ -194,6 +194,8 @@ en:
         started: "Started: %{session}"
         status: Status
         view: View
+        streaming: Streaming
+        not_streaming: "No"
     title: Organization Settings
     users:
       invite: Invite User
