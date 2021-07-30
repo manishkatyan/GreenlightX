@@ -90,5 +90,22 @@
     </div>
 
     <%= render "shared/footer" %>
+
+    <% if current_user && session[:current_user_plan] != Rails.configuration.stripe_plan_free%>
+    
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/60c095427f4b000ac036a348/1fbpduot4';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);})();
+    </script>
+    <!--End of Tawk.to Script-->
+    <%end %>
+
   </body>
 </html>
