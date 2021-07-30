@@ -64,7 +64,11 @@
                     <%= f.text_field :streaming_key, class: "form-control #{form_is_invalid?(@streaming, :streaming_key)}", placeholder: "Streaming KEY from YouTube, Facebook or others", autofocus: "", required: "", value: stream_data["streaming_key"], readonly: streaming %>
                     <div class="invalid-feedback d-block"><%= @streaming.errors.full_messages_for(:streaming_key).first %></div>
                 </div>
-                <div class="form-group">
+                <% page_data = live%>
+                <% no_player_url = page_data[:player_url].blank?%>
+                <% no_chat_url = page_data[:chat_url].blank?%>
+                <% viewer_url = (no_player_url && no_player_url) ? "d-none" : "" %>
+                <div class="form-group  <%=viewer_url%>">
                     <%= f.label :viewer_url, "Viewer URL", class: "form-label" %>
                     <input class= "form-control" type="text" id="viewer_url" value="" readonly>
                     <script>
