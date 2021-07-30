@@ -6,8 +6,8 @@ class Streaming < ApplicationRecord
     validates :viewer_url, presence: false
     validates :streaming_key, presence: false
     validates :show_presentation, presence: false
-    validates :vimeo_player_url, presence: false
-    validates :vimeo_chat_url, presence: false
+    validates :player_url, presence: false
+    validates :chat_url, presence: false
     validates :running, presence: false
     validates :streaming_enabled, presence: false
 end

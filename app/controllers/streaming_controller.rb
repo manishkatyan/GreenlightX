@@ -74,7 +74,7 @@ class StreamingController < ApplicationController
   def live
     meeting_id = params[:meeting_id]
     @streaming = Streaming.find_by(meeting_id: meeting_id)
-    @data = {:vimeo_url => @streaming.vimeo_player_url, :vimeo_chat => @streaming.vimeo_chat_url}
+    return {:player_url => @streaming.player_url, :chat_url => @streaming.chat_url}
   end
   helper_method :live
 
@@ -117,8 +117,8 @@ class StreamingController < ApplicationController
         "running" => running,
         "show_presentation" => show_presentation,
         "streaming_enabled" => current_user.streaming,
-        "vimeo_player_url" => @streaming.vimeo_player_url,
-        "vimeo_chat_url" => @streaming.vimeo_chat_url,
+        "player_url" => @streaming.player_url,
+        "chat_url" => @streaming.chat_url,
       }
       logger.info "streaming_status_update_data: #{streaming_status_update_data}"
       update_streaming_status(streaming_status_update_data, meetingID)
@@ -135,8 +135,8 @@ class StreamingController < ApplicationController
         rtmp_url= ''
         streaming_key= ''
         viewer_url= ''
-        vimeo_player_url = ''
-        vimeo_chat_url = ''
+        player_url = ''
+        chat_url = ''
         show_presentation= "false" 
         
       rescue => exception
@@ -145,8 +145,8 @@ class StreamingController < ApplicationController
         rtmp_url= ''
         streaming_key= ''
         viewer_url= ''
-        vimeo_player_url = ''
-        vimeo_chat_url = ''
+        player_url = ''
+        chat_url = ''
         show_presentation= "false" 
       end
       streaming_status_update_data["running"] = running
@@ -154,8 +154,8 @@ class StreamingController < ApplicationController
       streaming_status_update_data["url"] = rtmp_url
       streaming_status_update_data["streaming_key"] = streaming_key
       streaming_status_update_data["viewer_url"] = viewer_url
-      streaming_status_update_data["vimeo_player_url"] = vimeo_player_url
-      streaming_status_update_data["vimeo_chat_url"] = vimeo_chat_url
+      streaming_status_update_data["player_url"] = player_url
+      streaming_status_update_data["chat_url"] = chat_url
       streaming_status_update_data["show_presentation"] = show_presentation
       update_streaming_status(streaming_status_update_data, @streaming.meeting_id)
       flash.now[:success] = ("Streaming stopped successfully")
