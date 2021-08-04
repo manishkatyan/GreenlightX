@@ -16,14 +16,15 @@
 <div class="form-group">
   <div class="row">
     <div class="col-12">
-      <center>
-       <h4>If you want to cancel your account please email us at: </h4> <br>
-       <h4>
-       <a href="mailto:cancel@tokbird.com" class="mt-6 text-danger delete-user" target="_blank">
+       <h4>To cancel your account, email us at
+       <a href="mailto:cancel@tokbird.com" class="mt-6 text-primary delete-user" target="_blank">
           cancel@tokbird.com
         </a>
-        </h4>
-      </center>
+        and include the following: </h4>
+      <ul>
+        <li><%=t("settings.delete.user_email")%></li>
+        <li> <%= t("settings.delete.why")%></li>
+      </ul>
     </div>
   </div>
 </div>

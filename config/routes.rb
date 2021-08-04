@@ -18,8 +18,10 @@
 
 Rails.application.routes.draw do
 
-  get '/streaming', to: 'streaming#show'
-  post '/streaming', to: 'streaming#create'
+  get '/streaming/:meeting_id/show/:meeting_name', to: 'streaming#show'
+  get '/streaming/', to: 'streaming#select_meeting', as: :streaming_select
+  post '/streaming/', to: 'streaming#create'
+  get '/streaming/:meeting_id/live', to: 'streaming#streaming_page'
 
   get '/subscriptions/show', to: 'subscriptions#show'
   get '/subscriptions/create/:plan_id', to: 'subscriptions#create'

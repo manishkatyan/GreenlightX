@@ -83,8 +83,10 @@ class SessionsController < ApplicationController
 
   def check_subscription(subscription_id)
     Stripe.api_key = Rails.configuration.stripe_secret_key
-    status = Stripe::Subscription.retrieve(subscription_id).status
-    status == "trialing" ?  "active" : status
+    subscription = Stripe::Subscription.retrieve(subscription_id)
+    status = subscription.status  
+    session[:current_user_plan] = subscription.plan.id
+    status == "trialing" ?  "active" : status 
   end
 
   # POST /users/login

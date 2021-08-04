@@ -1,6 +1,7 @@
 <div class="container text-center pt-9">
-    <h1 class="h2 mb-3 mb-5">Please start a meeting to stream it</h1>
-    <%= link_to home_page, class: "btn btn-primary mt-5" do %>
-       Create Meeting <i class="fa fa-plus ml-2"></i>
+    <h1 class="h2 mb-3 mb-5"> <%=t("streaming.start_meeting")%> </h1>
+    <%= link_to home_page, class: "btn btn-primary mt-4 mb-3" do %>
+       <%=t("streaming.create_meeting")%> <i class="fa fa-plus ml-2"></i>
     <% end %>
+    <p style="font-style: italic;"><%=t("streaming.create_meeting_button_info")%></p>
 </div>

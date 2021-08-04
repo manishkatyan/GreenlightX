@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_083834) do
+ActiveRecord::Schema.define(version: 2021_07_30_092548) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -130,8 +130,12 @@ ActiveRecord::Schema.define(version: 2021_07_27_083834) do
     t.string "viewer_url"
     t.string "streaming_key"
     t.string "show_presentation"
-    t.string "vimeo_player_url"
-    t.string "vimeo_chat_url"
+    t.string "player_url"
+    t.string "chat_url"
+    t.string "pid", default: "0"
+    t.string "meeting_name"
+    t.boolean "streaming_enabled"
+    t.boolean "running", default: false
   end
 
   create_table "users", force: :cascade do |t|

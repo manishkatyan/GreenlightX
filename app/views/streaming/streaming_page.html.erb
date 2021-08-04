@@ -1,0 +1,43 @@
+<% page_data = live%>
+<% player_url = !page_data[:player_url].blank?%>
+<% chat_url = !page_data[:chat_url].blank?%>
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- player url -->
+        <% if player_url &&  chat_url%>
+        <div class="col col-lg-8 col-md-7">
+            <div style="padding:56.25% 0 0 0;position:relative;">
+                <iframe src="<%=page_data[:player_url]%>" 
+                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen 
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                </iframe>
+            </div>
+        </div>
+        <!-- chat url -->
+        <div class="col col-lg-4 col-md-5">
+            <iframe src="<%=page_data[:chat_url]%>" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        <% elsif player_url &&  !chat_url %>
+            <div class="col">
+            <div style="padding:56.25% 0 0 0;position:relative;">
+                <iframe src="<%=page_data[:player_url]%>" 
+                        frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen 
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                </iframe>
+            </div>
+        </div>
+        <% elsif chat_url && !player_url %>
+            <div class="col" style="width:100%;height:70vh;">
+                <iframe src="<%=page_data[:chat_url]%>" width="100%" height="100%" frameborder="0"></iframe>
+            </div>
+        </div>
+        </div>
+        <% else %>
+            <div class="container text-center pt-9">
+            <div class="display-1 text-primary mb-5">
+                404
+            </div>
+                <h1 class="h2 mb-3"><%= t("errors.not_found.message") %></h1>
+                <p class="h4 text-muted font-weight-normal mb-7"><%= t("errors.not_found.help") %></p>
+            </div>
+        <% end %>

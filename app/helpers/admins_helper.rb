@@ -145,12 +145,8 @@ module AdminsHelper
   end
 
   # streaming status
-  def is_streaming(room_id)
-    user_id = Room.where(id: room_id).first.user_id
-    uid = User.where(id: user_id).first.uid
-    json_file = "/usr/src/app/streaming_stats/#{uid}.json"
-    status_file = File.file?(json_file) ? JSON.load(File.read(json_file)) : false
-    status_file ?  status_file["running"] : false
+  def is_streaming(bbb_id)
+    Streaming.where(running:true).pluck(:meeting_id).include?(bbb_id)
   end
 
   # Roles
