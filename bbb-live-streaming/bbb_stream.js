@@ -38,7 +38,8 @@ var options     = {
     
   ],
 }
-options.executablePath = "/usr/bin/google-chrome"
+// User the Chromium which comes with the puppeter
+// options.executablePath = "/usr/bin/google-chrome"
 
 async function main() {
     
