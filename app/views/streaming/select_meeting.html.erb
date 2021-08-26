@@ -17,7 +17,7 @@
                     <select id="streaming_meeting_id" name="streaming[meeting_id]"  onchange="window.location=this.value" class="selectpicker show-tick w-100">
                     <option value="#" disabled selected>Select a Meeting to Streaming</option>
                     <% streaming_running_meetings.each do |meeting_id, meeting_title| %>
-                    <option value="/streaming/<%= meeting_id %>/show/<%= meeting_title %>"><%= meeting_title %></option>
+                    <option value="<%="#{Rails.configuration.relative_url_root ? Rails.configuration.relative_url_root : ''}"%>/streaming/<%= meeting_id %>/show/<%= meeting_title %>"><%= meeting_title %></option>
                     <% end %>
                     </select>
                 </div>

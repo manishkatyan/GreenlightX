@@ -187,8 +187,7 @@ module Greenlight
     config.application_parameters = ENV['APPLICATION_PARAMETERS'].present? ? ENV['APPLICATION_PARAMETERS'] : '[]'
 
     # streaming parameter
-    config.hide_chat = ENV['HIDE_CHAT'] || "true"
-    config.hide_user_list = ENV['HIDE_USER_LIST'] || "true"
+    config.hide_user_list_and_chat = ENV['HIDE_USER_LIST_AND_CHAT'] || "true"
 
     # mp4 url
     config.mp4_url = ENV['MP4_URL'].present? ? ENV['MP4_URL'] : false
