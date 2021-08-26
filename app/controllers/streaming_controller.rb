@@ -102,7 +102,7 @@ class StreamingController < ApplicationController
       full_rtmp_url = rtmp_url + streaming_key
       greenlight_url = URI.parse(Rails.configuration.bigbluebutton_endpoint)
       viewer_url = "#{@streaming.meeting_id}/live"
-      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_user_list_and_chat} #{full_rtmp_url}
+      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_user_list_and_chat} #{full_rtmp_url}"
       pid = Process.spawn (start_streaming).to_s
       Process.detach(pid)
       running = true
