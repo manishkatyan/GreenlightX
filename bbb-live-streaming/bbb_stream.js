@@ -36,6 +36,7 @@ var options     = {
     
   ],
 }
+
 // options.executablePath = "/usr/bin/google-chrome"
 
 async function main() {
@@ -114,7 +115,7 @@ async function main() {
         }
 
         await page.$eval('.Toastify', element => element.style.display = "none"); // Hide Toast alerts
-        await page.waitForSelector('button[aria-label="Change/Leave audio"]');    // Wait until Change/Leave audio button appearence
+        await page.waitForSelector('button[aria-label="Leave audio"]');    // Wait until Change/Leave audio button appearence
 
         // Hide bottom action bar
         await page.$eval('[class^=actionsbar] > [class^=center]' , element => element.style.display = "none");        
