@@ -100,7 +100,7 @@ async function main() {
         console.log(err)
     }
 
-        // Hide User List
+        // Hide User List and chat
         if (HIDE_USER_LIST_AND_CHAT == 'true'){
             try{
             // Hides user list and chat is true
