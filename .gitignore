@@ -63,3 +63,5 @@ bbb-live-streamingffmpeg_cmd.sh
 /bbb-live-streaming/test.js
 /bbb-live-streaming/test.sh
 /streaming_stats/gl-*
+capture-alsa.js
+greenlightx-google-api-key.json

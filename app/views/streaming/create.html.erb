@@ -74,7 +74,7 @@
                     <script>
                     window.onload = function() {
                       var url = new URL(window.location.href).origin
-                    $('#viewer_url').val(url + "/streaming/<%=stream_data["viewer_url"]%>");
+                    $('#viewer_url').val(url + "<%="#{Rails.configuration.relative_url_root ? Rails.configuration.relative_url_root : ''}"%>/streaming/<%=stream_data["viewer_url"]%>");
                     }
                     </script>
                 </div>

@@ -11,10 +11,8 @@ var BBB_SECRET = process.argv[3];
 var MEETING_ID = process.argv[4];
 var ATTENDIEE_PW = process.argv[5]
 var SHOW_PRESENTATION = process.argv[6]
-var HIDE_CHAT = process.argv[7]
-var HIDE_USER_LIST = process.argv[8]
-var RTMP_URL = process.argv[9]
-var VIEWER_URL = process.argv[10]
+var HIDE_USER_LIST_AND_CHAT = process.argv[7]
+var RTMP_URL = process.argv[8]
 let api = bbb.api(BBB_URL, BBB_SECRET)
 let http = bbb.http
 var disp_num = Math.floor(Math.random() * (200 - 99) + 99);
@@ -38,7 +36,7 @@ var options     = {
     
   ],
 }
-options.executablePath = "/usr/bin/google-chrome"
+// options.executablePath = "/usr/bin/google-chrome"
 
 async function main() {
     
@@ -80,8 +78,7 @@ async function main() {
          }
 
         //  Create Join url 
-        let url = api.administration.join('Live Stream', MEETING_ID, ATTENDIEE_PW, JOIN_PARAM)
-        console.log(url)      
+        let url = api.administration.join('Live Stream', MEETING_ID, ATTENDIEE_PW, JOIN_PARAM)    
         browser = await puppeteer.launch(options)
         const pages = await browser.pages()
         page = pages[0]
@@ -104,45 +101,18 @@ async function main() {
     }
 
         // Hide User List
-        if (HIDE_USER_LIST == 'true'){
+        if (HIDE_USER_LIST_AND_CHAT == 'true'){
             try{
-            // Hides user list if HIDE_USER_LIST is true
-                await page.waitForSelector('#app > main > section > div:nth-child(1)', {waitUntil: 'domcontentloaded'})
-                .then(()=> page.$eval('#app > main > section > div:nth-child(1)', element => element.style.display = "none"));
-        
-                // hides padding of user list
-                page.$eval('#app > main > section > div:nth-child(2)', element => element.style.display = "none");
+            // Hides user list and chat is true
+            await page.waitForSelector('[aria-label="Users and messages toggle"]');
+            await page.click('[aria-label="Users and messages toggle"]', {waitUntil: 'domcontentloaded'});
+            await page.waitForTimeout(5000)
             }
             catch(err){
                 console.log(err)
             }
         }
-        // Hides chat is HIDE_CHAT is true
-        if(HIDE_CHAT == 'true'){
-            try{
-            await page.waitForSelector('button[aria-label="Hide Public Chat"]');
-            await page.click('button[aria-label="Hide Public Chat"]', {waitUntil: 'domcontentloaded'});
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
 
-        // Send VIEWER_URL in chat only if chat is enabled in .env
-        if((HIDE_CHAT == 'false') && (VIEWER_URL.length>0)){
-            try{
-                await page.waitForSelector('[id="message-input"]');
-                await page.focus('[id="message-input"]', {waitUntil: 'domcontentloaded'})
-                await page.keyboard.type(`Visit this url to view live stream  ${VIEWER_URL}`)
-                await page.click('button[aria-label="Send message"]', {waitUntil: 'domcontentloaded'});
-            }
-            catch(err){
-                console.log(err)
-            }
-        }
-        else{
-            console.warn("Could\'t send viewer url, Please enable chat")
-        }
         await page.$eval('.Toastify', element => element.style.display = "none"); // Hide Toast alerts
         await page.waitForSelector('button[aria-label="Change/Leave audio"]');    // Wait until Change/Leave audio button appearence
 

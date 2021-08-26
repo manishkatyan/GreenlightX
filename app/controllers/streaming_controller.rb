@@ -96,14 +96,13 @@ class StreamingController < ApplicationController
       meetingID = @streaming.meeting_id
       attendee_pw = @room.attendee_pw
       show_presentation =  @streaming.show_presentation == "1" ? "true" : "false" 
-      hide_chat = Rails.configuration.hide_chat
-      hide_user_list = Rails.configuration.hide_user_list
+      hide_user_list_and_chat = Rails.configuration.hide_user_list_and_chat
       rtmp_url =   @streaming.url.ends_with?("/") ? @streaming.url : @streaming.url + "/"
       streaming_key = @streaming.streaming_key
       full_rtmp_url = rtmp_url + streaming_key
       greenlight_url = URI.parse(Rails.configuration.bigbluebutton_endpoint)
       viewer_url = "#{@streaming.meeting_id}/live"
-      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_chat} #{hide_user_list} #{full_rtmp_url} #{viewer_url}"
+      start_streaming = "node /usr/src/app/bbb-live-streaming/bbb_stream.js #{bbb_url} #{bbb_secret} #{meetingID} #{attendee_pw} #{show_presentation} #{hide_user_list_and_chat} #{full_rtmp_url}
       pid = Process.spawn (start_streaming).to_s
       Process.detach(pid)
       running = true
